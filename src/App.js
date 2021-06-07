@@ -1,10 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import './global.css';
-import { pageText, media } from './data';
+import EVENT_DATA from './data/events';
+import PAGE_TEXT from './data/text';
 import styled from 'styled-components';
+import SubmitButton from './SubmitButton';
+
+import separator from './images/divider-orange.svg';
+import feathers from './images/feathers.svg';
 
 // test url:
-// http://localhost:3000/?lang=en&eventType=wellbeing&eventId=67543&tokenId=754754&regId=75347&t=2021-05-06-18-30
+// http://localhost:3000/?lang=en&eventType=wellbeing&eventId=67543&tokenId=754754&regId=75347&t=2021-05-06-18-30&override=Yoga%20for
 
 function App() {
   const parseParams = (querystring) => {
@@ -24,162 +29,231 @@ function App() {
 
     return obj;
   };
-  const queryData = parseParams(window.location.search);
-  const filteredText = pageText.filter((item) => item.lang === queryData?.lang);
-  const text = filteredText[0]?.content;
-  const filteredHeaderImage = media?.headerImage?.filter(
-    (item) => item.type === queryData.eventType
-  );
-  const { image, description } = filteredHeaderImage[0] || {};
-  const { h1, h2, h3, p2, p3, p4, p5, ul, btn } = text || {};
-  const eventTitle = filteredText[0]?.titles[queryData.eventType];
-  const eventDuration = filteredText[0]?.timings[queryData.eventType];
 
-  const [buttonEnabled, setButtonEnabled] = useState(false);
-  const [displayMessage, setDisplayMessage] = useState(false);
+  const queryData = parseParams(window.location.search);
+  const text = PAGE_TEXT[queryData?.lang] || {};
+  const event = EVENT_DATA[queryData?.eventType] || {};
+  const { h1, h3, p2, p3, p4, p5, ul, btn1, btn2, btn3, quote1 } = text || {};
+  const eventTitle = queryData.eventTitle || '';
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      const response = await fetch(
-        `https://staging.ishayoga.eu/index.php/webinar-join-now/`,
-        {
-          method: 'POST',
-          body: {
-            tokenId: queryData.tokenId,
-            regId: queryData.regId
-          }
-        }
-      );
-      const res = await response.json();
-      setLoading(false);
-      console.log({ res });
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  // function seems to work, but possible off by one errors or
-  // a million other errors I haven't thought of 👍
-  const checkTime = (queryDate) => {
-    const currentTime = new Date();
-    const minute = currentTime.getMinutes();
-    const hour = currentTime.getHours();
-    const day = currentTime.getDay();
-    const month = currentTime.getMonth();
-    const year = currentTime.getFullYear();
-
-    const eventTimeArr = queryDate.split('-');
-    const eventYear = parseFloat(eventTimeArr[0]);
-    const eventMonth = parseFloat(eventTimeArr[1]);
-    const eventDay = parseFloat(eventTimeArr[2]);
-    const eventHour = parseFloat(eventTimeArr[3]);
-    const eventMinute = parseFloat(eventTimeArr[4]);
-
-    if (eventYear === year && eventMonth === month && eventDay === day) {
-      //+100 is a lazy way to avoid negative integers
-      if (hour === eventHour && minute + 100 >= eventMinute + 100 - 30) {
-        setButtonEnabled(true);
-      } else if (hour === eventHour - 1 && minute >= eventMinute + 30) {
-        setButtonEnabled(true);
-      }
-    }
-  };
-
-  useEffect(() => checkTime(queryData.t), []);
+  if (Object.keys(queryData).length <= 0) {
+    return <p style={{ paddingLeft: '3rem' }}>Please provide query params</p>;
+  }
 
   return (
-    <Container $buttonEnabled={buttonEnabled} $loading={loading}>
-      <header>
-        <div className="header-top">
-          <img src={media.logo} alt="isha logo" />
-          <h1>{h1}</h1>
-        </div>
-        <img src={image} className="header-image" alt={description} />
-      </header>
+    <Container>
       <main>
-        <h1>{h2(eventTitle)}</h1>
-        <div className="text-wrapper">
-          <p>{p2}</p>
+        <header>
+          <div className="banner-content">
+            <h1>{eventTitle}</h1>
+            <h2>{h1}</h2>
+            <img
+              src={separator}
+              alt="leaf print with horizonal black lines (separator)"
+            />
+            <SubmitButton
+              queryData={queryData}
+              buttonText={btn1}
+              loading={loading}
+              setLoading={setLoading}
+              eventDuration={parseInt(event.duration)}
+            />
+          </div>
+          <img
+            src={event.images.desktop}
+            className="header-image desktop"
+            alt={event.images.description}
+          />
+          <img
+            src={event.images.mobile}
+            className="header-image mobile"
+            alt={event.images.description}
+          />
+          <div className="navbar">
+            <a href="#webinar-guidelines">{btn2}</a>{' '}
+            <a href="#sharings">{btn3}</a>
+          </div>
+        </header>
+        <div className="feather-quote">
+          <img src={feathers} alt="feathers" className="feathers" />
+          <blockquote>
+            "{quote1}" <br />- Sadhguru
+          </blockquote>
+          <p className="subheading">{p2(eventTitle)}</p>
         </div>
         <div className="separator">
           <img
-            src={media.separator}
+            src={separator}
             alt="leaf print with horizonal black lines (separator)"
           />
         </div>
-        <h2>{h3(eventTitle)}</h2>
-        <ul className="instructions">
-          {ul?.map((listItem, index) => {
-            if (typeof listItem === 'function') {
-              return <li key={index}>{listItem(eventDuration)}</li>;
-            }
-            return <li key={index}>{listItem}</li>;
-          })}
-        </ul>
-        <p dangerouslySetInnerHTML={{ __html: p3 }} />
-        <p>{p4}</p>
-        <footer className="text-wrapper">
-          <form onSubmit={handleSubmit}>
-            <button
-              className="button-submit"
-              type="submit"
-              disabled={!buttonEnabled}
-            >
-              {btn}
-            </button>
-            <button
-              className="button-blocker"
-              onClick={() => setDisplayMessage(true)}
+        <div className="main-content">
+          <h2>{h3}</h2>
+          <ul className="instructions">
+            {ul?.map((listItem, index) => {
+              if (typeof listItem === 'function') {
+                return <li key={index}>{listItem(event.duration)}</li>;
+              }
+              return <li key={index}>{listItem}</li>;
+            })}
+          </ul>
+          <SubmitButton
+            queryData={queryData}
+            buttonText={btn1}
+            loading={loading}
+            setLoading={setLoading}
+            eventDuration={parseInt(event.duration)}
+          />
+          <div className="separator">
+            <img
+              src={separator}
+              alt="leaf print with horizonal black lines (separator)"
             />
-            {displayMessage && (
-              <p className="error-message">
-                You may only enter the session up to 30 minutes before the start
-                time
-              </p>
-            )}
-          </form>
+          </div>
           <p>{p5}</p>
-        </footer>
+          <p dangerouslySetInnerHTML={{ __html: p3 }} />
+          <p>{p4}</p>
+        </div>
       </main>
     </Container>
   );
 }
 
 const Container = styled.div`
-  background: var(--beige);
+  background: var(--offWhite);
 
   header {
-    .header-top {
+    position: relative;
+    .banner-content {
+      position: absolute;
+      top: 50%;
+      left: 25%;
+      transform: translate(-50%, -50%);
       display: flex;
+      flex-direction: column;
       align-items: center;
       padding: 1rem;
       padding-left: 2rem;
-      background: var(--beigeDark);
-      color: var(--greyDark);
+      color: white;
 
-      img {
-        width: 50px;
-        height: 50px;
+      @media(max-width:700px){
+        padding: 0;
+        top: unset;
+        left: 50%;
+        bottom: 0;
+        transform: translate(-50%, -35%);
       }
 
       h1 {
-        margin-left: 3rem;
+        margin: 0;
+      }
+
+      h2 {
+        font-family: 'Merriweather', serif;
+      }
+
+      img {
+        margin-bottom: 2rem;
       }
     }
 
     .header-image {
       width: 100%;
+
+      &.mobile {
+        display: none;
+      }
+
+      @media (max-width: 700px) {
+        &.desktop {
+          display: none;
+        }
+        &.mobile {
+          display: initial;
+        }
+      }
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: center;
+      background: var(--brownLight);
+      margin-top: -0.3rem;
+      height: 100%;
+      padding: 1rem;
+
+      a {
+        padding: 0.5rem;
+        border: 1px solid var(--gold);
+        border-radius: 5px;
+        text-decoration: none;
+        color: var(--gold);
+        text-transform: uppercase;
+
+        &:first-child {
+          margin-right: 1rem;
+        }
+
+        &:hover {
+          background: rgba(43, 37, 30, 0.08);
+        }
+      }
     }
   }
 
   main {
-    max-width: 1200px;
-    padding: 1rem;
+    max-width: 1400px;
     color: var(--greyDark);
     margin: auto;
+
+    .feather-quote {
+      position: relative;
+      padding: 1rem;
+
+      .feathers {
+        max-width: 60px;
+        position: absolute;
+        top: 0;
+        left: 100px;
+
+        @media (max-width: 1000px) {
+          display: none;
+        }
+      }
+
+      blockquote {
+        font-size: 1.5rem;
+        color: var(--goldLight);
+        text-align: center;
+        max-width: 800px;
+        margin: 1rem auto;
+      }
+
+      .subheading {
+        font-size: 1.3rem;
+        text-align: center;
+        padding: 0 3rem;
+        max-width: 700px;
+        margin: 1rem auto;
+      }
+    }
+
+    .main-content {
+      padding: 0 2rem;
+      max-width: 1000px;
+      margin: auto;
+
+      h2 {
+        color: var(--blueDarker);
+        margin-bottom: 2.5rem;
+      }
+
+      li {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+      }
+    }
 
     h1 {
       font-family: 'Merriweather', serif;
@@ -187,25 +261,14 @@ const Container = styled.div`
       margin-left: 0.5rem;
     }
 
-    .text-wrapper {
-      background: white;
-      padding: 1rem;
-      box-shadow: inset 0 0 10px #f2f2f2;
-      border-radius: 2px;
-    }
-
     .separator {
       display: flex;
       justify-content: center;
-      margin: 3rem 0;
+      padding: 1rem 0;
 
       img {
         max-height: 30px;
       }
-    }
-
-    .instructions {
-      line-height: 1.75rem;
     }
 
     footer {
@@ -217,41 +280,6 @@ const Container = styled.div`
         padding: 3rem;
         padding-bottom: 2rem;
         margin: 2rem 0;
-      }
-      form {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-
-        .button-submit {
-          background: var(--orange);
-          color: white;
-          border: none;
-          padding: 0.5rem 2rem;
-          margin-bottom: 1rem;
-          border-radius: 5px;
-          font-family: 'Merriweather', serif;
-          font-weight: 600;
-          opacity: ${(props) =>
-            props.$buttonEnabled ? 1 : 0.7};
-        }
-
-        .button-blocker {
-          display: ${(props) => (props.$buttonEnabled ? 'none' : 'initial')};
-          position: absolute;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 130px;
-          height: 35px;
-          background: none;
-          border: none;
-        }
-
-        .error-message {
-          color: var(--orangeDark);
-          font-weight: 600;
-        }
       }
     }
   }

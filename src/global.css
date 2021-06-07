@@ -6,14 +6,21 @@ body {
 
   /* COLOURS */
 	--blue: #243B9C;
+	--blueDarker: #0C2E83;
 	--orange: #DF7127;
 	--orangeDark: #D04823;
 	--green: #2A9B2D;
+	--gold: #997800;
+	--goldLight: #cd9f00;
+	--brownLight: #e1d3af;
 	--mustard: #BC8337;
 	--mustardDark: #B4741F;
+	--offWhite: #f7f7f7;
 	--beige: #FBF7F0;
 	--beigeDark: #DDD3C2;
+	--beigeDarker: #b2ada3;
 	--greyDark: #494949;
+	--greyDark2: #444;
 }
 
 code {
