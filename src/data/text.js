@@ -5,11 +5,12 @@ const pageText = {
       return `Isha Online Offerings: ${title}`;
     },
     h3: 'To ensure the best possible experience, please follow the guidelines below:',
+    h4: 'For Additional Support:',
     p1: 'Isha Online Offerings',
     p2: function (title) {
       return `The ${title} session includes some yogic practices and a guided meditation`;
     },
-    p3: 'If you need any support or clarification, please reach out to us at <a href="mailto:online.programs@ishafoundation.org">online.programs@ishafoundation.org</a>',
+    p3: '<a href="mailto:online.programs@ishafoundation.org">online.programs@ishafoundation.org</a>',
     p4: 'We look forward to having you with us :)',
     p5: 'Please ensure that you connect at least 5 minutes before the session.',
     ul: [
@@ -31,19 +32,19 @@ const pageText = {
       'If only you can go through difficult times with inner grace, every situation you face will be an opportunity to enhance your life.'
   },
   de: {
-    h1: 'German Webinar',
+    h1: 'Deutsche Webinar',
     h2: function (title) {
       return `Isha Online Offerings: ${title}`;
     },
-    h3: function (title) {
-      return `To best receive the ${title} session, please follow the below guidelines:`;
-    },
+    h3: 'To ensure the best possible experience, please follow the guidelines below:',
+    h4: 'For Additional Support:',
     p1: 'Isha Online Offerings',
-    p2: 'It is wonderful to see your interest in taking this step towards your wellbeing.',
-    p3: 'If you need any support or clarification, please reach out to us at <a href="mailto:online.programs@ishafoundation.org">online.programs@ishafoundation.org</a>',
+    p2: function (title) {
+      return `The ${title} session includes some yogic practices and a guided meditation`;
+    },
+    p3: '<a href="mailto:online.programs@ishafoundation.org">online.programs@ishafoundation.org</a>',
     p4: 'We look forward to having you with us :)',
     p5: 'Please ensure that you connect at least 5 minutes before the session.',
-    p6: 'Join us for live webinars with trained Isha volunteers to learn new practices, refresh previously learned ones, and get your questions answered immediately!',
     ul: [
       'The session will include some yogic practices and a guided meditation',
       function (duration) {

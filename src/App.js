@@ -4,6 +4,7 @@ import EVENT_DATA from './data/events';
 import PAGE_TEXT from './data/text';
 import styled from 'styled-components';
 import SubmitButton from './SubmitButton';
+import Carousel from './Carousel';
 
 import separator from './images/divider-orange.svg';
 import feathers from './images/feathers.svg';
@@ -33,7 +34,7 @@ function App() {
   const queryData = parseParams(window.location.search);
   const text = PAGE_TEXT[queryData?.lang] || {};
   const event = EVENT_DATA[queryData?.eventType] || {};
-  const { h1, h3, p2, p3, p4, p5, ul, btn1, btn2, btn3, quote1 } = text || {};
+  const { h1, h3, h4, p2, p3, p4, p5, ul, btn1, btn2, btn3, quote1 } = text || {};
   const eventTitle = queryData.eventTitle || '';
   const [loading, setLoading] = useState(false);
 
@@ -78,7 +79,7 @@ function App() {
         <div className="feather-quote">
           <img src={feathers} alt="feathers" className="feathers" />
           <blockquote>
-            "{quote1}" <br />- Sadhguru
+            "{quote1}" - Sadhguru
           </blockquote>
           <p className="subheading">{p2(eventTitle)}</p>
         </div>
@@ -88,7 +89,7 @@ function App() {
             alt="leaf print with horizonal black lines (separator)"
           />
         </div>
-        <div className="main-content">
+        <div className="main-content" id="webinar-guidelines">
           <h2>{h3}</h2>
           <ul className="instructions">
             {ul?.map((listItem, index) => {
@@ -98,22 +99,36 @@ function App() {
               return <li key={index}>{listItem}</li>;
             })}
           </ul>
-          <SubmitButton
-            queryData={queryData}
-            buttonText={btn1}
-            loading={loading}
-            setLoading={setLoading}
-            eventDuration={parseInt(event.duration)}
-          />
+          <div className="button-container">
+            <SubmitButton
+              queryData={queryData}
+              buttonText={btn1}
+              loading={loading}
+              setLoading={setLoading}
+              eventDuration={parseInt(event.duration)}
+            />
+            <p>{p5}</p>
+          </div>
           <div className="separator">
             <img
               src={separator}
               alt="leaf print with horizonal black lines (separator)"
             />
           </div>
-          <p>{p5}</p>
-          <p dangerouslySetInnerHTML={{ __html: p3 }} />
-          <p>{p4}</p>
+          <footer className="footer">
+            <h2>{h4}</h2>
+            <p dangerouslySetInnerHTML={{ __html: p3 }} />
+            <div className="sharings">
+              <h2>Sharings</h2>
+              <div className="separator">
+                <img
+                  src={separator}
+                  alt="leaf print with horizonal black lines (separator)"
+                />
+              </div>
+              <Carousel />
+            </div>
+          </footer>
         </div>
       </main>
     </Container>
@@ -147,10 +162,12 @@ const Container = styled.div`
 
       h1 {
         margin: 0;
+        font-size: 2.5rem;
       }
 
       h2 {
         font-family: 'Merriweather', serif;
+        font-size: 2rem;
       }
 
       img {
@@ -206,6 +223,7 @@ const Container = styled.div`
     max-width: 1400px;
     color: var(--greyDark);
     margin: auto;
+    padding-bottom: 4rem;
 
     .feather-quote {
       position: relative;
@@ -223,34 +241,36 @@ const Container = styled.div`
       }
 
       blockquote {
-        font-size: 1.5rem;
+        font-size: 1.8rem;
         color: var(--goldLight);
         text-align: center;
         max-width: 800px;
         margin: 1rem auto;
+        font-style: italic;
       }
-
+      
       .subheading {
-        font-size: 1.3rem;
+        font-size: 1.8rem;
         text-align: center;
         padding: 0 3rem;
         max-width: 700px;
         margin: 1rem auto;
       }
     }
-
+    
     .main-content {
       padding: 0 2rem;
       max-width: 1000px;
       margin: auto;
-
+      
       h2 {
         color: var(--blueDarker);
         margin-bottom: 2.5rem;
+        font-size: 2.4rem;
       }
 
       li {
-        font-size: 1.2rem;
+        font-size: 1.8rem;
         margin-bottom: 2rem;
       }
     }
@@ -259,6 +279,11 @@ const Container = styled.div`
       font-family: 'Merriweather', serif;
       margin-bottom: 3rem;
       margin-left: 0.5rem;
+    }
+
+    .button-container {
+      text-align: center;
+      font-size: 1.5rem;
     }
 
     .separator {
@@ -272,16 +297,38 @@ const Container = styled.div`
     }
 
     footer {
-      &.text-wrapper {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 3rem;
-        padding-bottom: 2rem;
-        margin: 2rem 0;
+      text-align: center;
+
+      
+      h2 {
+        margin-bottom: 0;
+      }
+
+      
+      a {
+        font-size: 1.5rem;
+        color: black;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      .sharings {
+        margin-top: 6rem;
+
+        h2 {
+          font-family: 'Merriweather', serif;
+          margin-bottom: 0;
+        }
+
+        p {
+          font-size: 1.4rem;
+        }
       }
     }
+
   }
 `;
 
