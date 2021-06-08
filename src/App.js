@@ -5,12 +5,13 @@ import PAGE_TEXT from "./data/text";
 import styled from "styled-components";
 import SubmitButton from "./SubmitButton";
 import Carousel from "./Carousel";
+import getEventType from './utilities/getEventType';
 
 import separator from "./images/divider-orange.svg";
 import feathers from "./images/feathers.svg";
 
 // test url:
-// http://localhost:3000/?lang=en&eventType=wellbeing&eventId=67543&tokenId=754754&regId=75347&t=2021-05-06-18-30&override=Yoga%20for
+// http://localhost:3000/?lang=en&eventType=wellbeing&eventId=67543&tokenId=754754&regId=75347&t=2021-05-06-18-30&tz=BST&eventTitle=Yoga%20for%20Wellbeing
 
 function App() {
   const parseParams = (querystring) => {
@@ -33,7 +34,7 @@ function App() {
 
   const queryData = parseParams(window.location.search);
   const text = PAGE_TEXT[queryData?.lang] || {};
-  const event = EVENT_DATA[queryData?.eventType] || {};
+  const event = EVENT_DATA[getEventType(queryData?.eventType)] || {};
   const { h1, h3, h4, p2, p3, p4, p5, ul, btn1, btn2, btn3, quote1 } =
     text || {};
   const eventTitle = queryData.eventTitle || "";
@@ -164,7 +165,7 @@ const Container = styled.div`
       }
 
       h1 {
-        font-family: 'Fira Sans', sans-serif;
+        font-family: "Fira Sans", sans-serif;
         font-weight: 600;
         letter-spacing: 0.05rem;
         font-size: 2.5rem;
