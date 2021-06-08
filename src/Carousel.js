@@ -69,6 +69,7 @@ const CarouselContainer = styled(Slider)`
   .slide-container {
       display: flex !important;
       align-items: center;
+      font-weight: 300;
 
     img {
       margin-right: 2rem;

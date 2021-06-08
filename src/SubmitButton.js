@@ -1,12 +1,14 @@
-import { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import { useEffect, useState } from "react";
+import styled from "styled-components";
+import getEventTimeZoneOffset from "./utilities/getEventTimeZoneOffset";
 
 export default function SubmitButton({
   buttonText,
   queryData,
   loading,
   setLoading,
-  eventDuration
+  eventDuration,
+  timeZone,
 }) {
   const [buttonEnabled, setButtonEnabled] = useState(false);
   const [displayMessage, setDisplayMessage] = useState(false);
@@ -19,18 +21,18 @@ export default function SubmitButton({
       const response = await fetch(
         `https://staging.ishayoga.eu/index.php/webinar-join-now/`,
         {
-          method: 'POST',
+          method: "POST",
           body: JSON.stringify({
             tokenId: queryData.tokenId,
-            regId: queryData.regId
-          })
+            regId: queryData.regId,
+          }),
         }
       );
       const res = await response.json();
       setLoading(false);
       console.log({ res });
-      if (res.status === 'ERROR') {
-        console.log('no match found for tokenId or regId');
+      if (res.status === "ERROR") {
+        console.log("no match found for tokenId or regId");
       }
     } catch (err) {
       console.log(err);
@@ -39,18 +41,21 @@ export default function SubmitButton({
 
   const checkTime = (eventTime, duration) => {
     const currentTime = new Date();
-    const minute = currentTime.getMinutes();
+    // convert system time to GMT0
+    const minute =
+      currentTime.getMinutes() + currentTime.getTimezoneOffset();
     const hour = currentTime.getHours();
     const day = currentTime.getDate();
     const month = currentTime.getMonth() + 1;
     const year = currentTime.getFullYear();
 
-    const eventTimeArr = eventTime.split('-');
+    const eventTimeArr = eventTime.split("-");
     const eventYear = parseFloat(eventTimeArr[0]);
     const eventMonth = parseFloat(eventTimeArr[1]);
     const eventDay = parseFloat(eventTimeArr[2]);
     const eventHour = parseFloat(eventTimeArr[3]);
-    const eventMinute = parseFloat(eventTimeArr[4]);
+    const eventMinute =
+      parseFloat(eventTimeArr[4]) + getEventTimeZoneOffset(timeZone);
 
     const currentDayMinutes = hour * 60 + minute;
     const eventDayMinutes = eventHour * 60 + eventMinute;
@@ -122,20 +127,20 @@ const FormContainer = styled.div`
 
     .button-submit {
       background: ${(props) =>
-        props.$buttonEnabled ? 'var(--orange)' : '#ebebeb'};
+        props.$buttonEnabled ? "var(--orange)" : "#ebebeb"};
       color: ${(props) =>
-        props.$buttonEnabled ? 'white' : 'var(--beigeDarker)'};
+        props.$buttonEnabled ? "white" : "var(--beigeDarker)"};
       border: none;
       padding: 0.5rem 2rem;
       margin-bottom: 1rem;
       border-radius: 5px;
-      font-family: 'Merriweather', serif;
       font-weight: 600;
+      font-size: 1.3rem;
       opacity: ${(props) => (props.$buttonEnabled ? 1 : 0.7)};
     }
 
     .button-blocker {
-      display: ${(props) => (props.$buttonEnabled ? 'none' : 'initial')};
+      display: ${(props) => (props.$buttonEnabled ? "none" : "initial")};
       position: absolute;
       left: 50%;
       transform: translateX(-50%);

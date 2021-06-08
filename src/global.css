@@ -1,29 +1,172 @@
-body {
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
   margin: 0;
-  font-family: 'Fira Sans', sans-serif;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+ol,
+ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+body {
+  line-height: 1;
+  margin: 0;
+  font-family: "Fira Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
   /* COLOURS */
-	--blue: #243B9C;
-	--blueDarker: #0C2E83;
-	--orange: #DF7127;
-	--orangeDark: #D04823;
-	--green: #2A9B2D;
-	--gold: #997800;
-	--goldLight: #cd9f00;
-	--brownLight: #e1d3af;
-	--mustard: #BC8337;
-	--mustardDark: #B4741F;
-	--offWhite: #f7f7f7;
-	--beige: #FBF7F0;
-	--beigeDark: #DDD3C2;
-	--beigeDarker: #b2ada3;
-	--greyDark: #494949;
-	--greyDark2: #444;
+  --blue: #243b9c;
+  --blueDarker: #0c2e83;
+  --orange: #df7127;
+  --orangeDark: #d04823;
+  --green: #2a9b2d;
+  --gold: #997800;
+  --goldLight: #cd9f00;
+  --brownLight: #e1d3af;
+  --mustard: #bc8337;
+  --mustardDark: #b4741f;
+  --offWhite: #f7f7f7;
+  --beige: #fbf7f0;
+  --beigeDark: #ddd3c2;
+  --beigeDarker: #b2ada3;
+  --greyDark: #494949;
+  --greyDark2: #444;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+@font-face {
+  font-family: "Fedra Sans";
+  src: local("Fedra Sans"), url(./fonts/FSerStdA-Book.otf) format("opentype");
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: "Fedra Sans";
+  src: local("Fedra Sans"),
+    url(./fonts/FedraSansStd-Medium.otf) format("opentype");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Fedra Sans";
+  src: local("Fedra Sans"),
+    url(./fonts/FedraSansStd-Bold.otf) format("opentype");
+  font-weight: 700;
 }
