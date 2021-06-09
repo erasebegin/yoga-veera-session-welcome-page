@@ -9,7 +9,7 @@ const events = {
       desktop: image,
       mobile: image2
     },
-    duration: '40'
+    duration: '45'
   },
 
   immunity: {
@@ -19,7 +19,7 @@ const events = {
       desktop: image,
       mobile: image2
     },
-    duration: '30'
+    duration: '45'
   },
   
   meditation: {
