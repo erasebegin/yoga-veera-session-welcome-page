@@ -1,14 +1,14 @@
-import { useState } from "react";
-import "./global.css";
-import EVENT_DATA from "./data/events";
-import PAGE_TEXT from "./data/text";
-import styled from "styled-components";
-import SubmitButton from "./SubmitButton";
-import Carousel from "./Carousel";
+import { useState } from 'react';
+import './global.css';
+import EVENT_DATA from './data/events';
+import PAGE_TEXT from './data/text';
+import styled from 'styled-components';
+import SubmitButton from './SubmitButton';
+import Carousel from './Carousel';
 import getEventType from './utilities/getEventType';
 
-import separator from "./images/divider-orange.svg";
-import feathers from "./images/feathers.svg";
+import separator from './images/divider-orange.svg';
+import feathers from './images/feathers.svg';
 
 // test url:
 // http://localhost:3000/?lang=en&eventType=wellbeing&eventId=67543&tokenId=754754&regId=75347&t=2021-05-06-18-30&tz=BST&eventTitle=Yoga%20for%20Wellbeing
@@ -35,17 +35,16 @@ function App() {
   const queryData = parseParams(window.location.search);
   const text = PAGE_TEXT[queryData?.lang] || {};
   const event = EVENT_DATA[getEventType(queryData?.eventType)] || {};
-  const { h1, h3, h4, p2, p3, p4, p5, ul, btn1, btn2, btn3, quote1 } =
-    text || {};
-  const eventTitle = queryData.eventTitle || "";
+  const { h1, h3, h4, p2, p5, ul, btn1, btn2, btn3, quote1 } = text || {};
+  const eventTitle = queryData.eventTitle || '';
   const [loading, setLoading] = useState(false);
 
   if (Object.keys(queryData).length <= 0) {
-    return <p style={{ paddingLeft: "3rem" }}>Please provide query params</p>;
+    return <p style={{ paddingLeft: '3rem' }}>Please provide query params</p>;
   }
 
   return (
-    <Container>
+    <Container $loading={loading}>
       <main>
         <header>
           <div className="overlay" />
@@ -66,18 +65,18 @@ function App() {
             />
           </div>
           <img
-            src={event.images.desktop}
+            src={event?.images?.desktop}
             className="header-image desktop"
-            alt={event.images.description}
+            alt={event?.images?.description}
           />
           <img
-            src={event.images.mobile}
+            src={event?.images?.mobile}
             className="header-image mobile"
-            alt={event.images.description}
+            alt={event?.images?.description}
           />
         </header>
         <div className="navbar">
-          <a href="#webinar-guidelines">{btn2}</a>{" "}
+          <a href="#webinar-guidelines">{btn2}</a>{' '}
           <a href="#sharings">{btn3}</a>
         </div>
         <div className="feather-quote">
@@ -95,7 +94,7 @@ function App() {
           <h2>{h3}</h2>
           <ul className="instructions">
             {ul?.map((listItem, index) => {
-              if (typeof listItem === "function") {
+              if (typeof listItem === 'function') {
                 return <li key={index}>{listItem(event.duration)}</li>;
               }
               return <li key={index}>{listItem}</li>;
@@ -120,8 +119,16 @@ function App() {
           </div>
           <footer className="footer">
             <h2>{h4}</h2>
-            <p dangerouslySetInnerHTML={{ __html: p3 }} />
-            <div className="sharings">
+            {queryData?.region === 'EU' ? (
+              <a href="mailto:webinar.europe@ishafoundation.org">
+                webinar.europe@ishafoundation.org
+              </a>
+            ) : (
+              <a href="mailto:online.programs@ishafoundation.org">
+                online.programs@ishafoundation.org
+              </a>
+            )}
+            <div className="sharings" id="sharings">
               <h2>Sharings</h2>
               <div className="separator">
                 <img
@@ -139,7 +146,7 @@ function App() {
 }
 
 const Container = styled.div`
-  background: var(--offWhite);
+  background: #f7f1e3;
 
   header {
     position: relative;
@@ -155,6 +162,7 @@ const Container = styled.div`
       padding-left: 2rem;
       color: white;
       text-align: center;
+      max-width: 600px;
 
       @media (max-width: 700px) {
         padding: 0;
@@ -165,16 +173,17 @@ const Container = styled.div`
       }
 
       h1 {
-        font-family: "Fira Sans", sans-serif;
+        font-family: 'Fira Sans', sans-serif;
         font-weight: 600;
         letter-spacing: 0.05rem;
         font-size: 2.5rem;
         margin: 0;
         margin-bottom: 1.5rem;
+        line-height: 3.1rem;
       }
 
       h2 {
-        font-family: "Fedra Sans", serif;
+        font-family: 'Fedra Sans', serif;
         font-weight: 300;
         font-size: 2rem;
       }
@@ -246,6 +255,8 @@ const Container = styled.div`
     color: var(--greyDark);
     margin: auto;
     padding-bottom: 4rem;
+    background: var(--offWhite);
+    opacity: ${(props) => (props.$loading ? 0.5 : 1)};
 
     .feather-quote {
       position: relative;
@@ -297,11 +308,12 @@ const Container = styled.div`
         list-style: disc;
         font-size: 1.2rem;
         margin-bottom: 2rem;
+        line-height: 2rem;
       }
     }
 
     h1 {
-      font-family: "Merriweather", serif;
+      font-family: 'Merriweather', serif;
       margin-bottom: 3rem;
       margin-left: 0.5rem;
     }
@@ -346,10 +358,10 @@ const Container = styled.div`
       }
 
       .sharings {
-        margin-top: 6rem;
+        margin: 6rem 0;
 
         h2 {
-          font-family: "Merriweather", serif;
+          font-family: 'Merriweather', serif;
           margin-bottom: 0;
         }
 

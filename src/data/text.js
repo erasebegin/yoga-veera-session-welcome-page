@@ -10,7 +10,6 @@ const pageText = {
     p2: function (title) {
       return `The ${title} session includes some yogic practices and a guided meditation`;
     },
-    p3: '<a href="mailto:online.programs@ishafoundation.org">online.programs@ishafoundation.org</a>',
     p4: 'We look forward to having you with us :)',
     p5: 'Please ensure that you connect at least 5 minutes before the session.',
     ul: [
