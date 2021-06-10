@@ -71,13 +71,21 @@ const CarouselContainer = styled(Slider)`
       align-items: center;
       font-weight: 300;
 
-    img {
-      margin-right: 2rem;
-      margin-left: 2rem;
-    }
-
-    p {
+      @media(max-width: 700px){
+        flex-direction: column;
+      }
+      
+      img {
         margin-right: 2rem;
+        margin-left: 2rem;
+      }
+      
+      p {
+        margin-right: 2rem;
+        @media(max-width: 700px){
+          margin-right: 0;
+          margin-top: 2rem;
+        }
     }
   }
 `;

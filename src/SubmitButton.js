@@ -129,6 +129,7 @@ const FormContainer = styled.div`
       font-weight: 600;
       font-size: 1.3rem;
       opacity: ${(props) => (props.$buttonEnabled ? 1 : 0.7)};
+      cursor: pointer;
     }
 
     .button-blocker {
