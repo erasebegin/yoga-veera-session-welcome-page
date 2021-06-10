@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import getEventTimeZoneOffset from './utilities/getEventTimeZoneOffset';
+import convertToMinutes from './utilities/convertToMinutes';
 
 export default function SubmitButton({
   buttonText,
@@ -42,7 +43,7 @@ export default function SubmitButton({
   const checkTime = (eventTime, duration) => {
     const currentTime = new Date();
     // convert system time to GMT0
-    const minute = currentTime.getMinutes() + currentTime.getTimezoneOffset();
+    const minute = currentTime.getMinutes();
     const hour = currentTime.getHours();
     const day = currentTime.getDate();
     const month = currentTime.getMonth() + 1;
@@ -54,18 +55,21 @@ export default function SubmitButton({
     const eventDay = parseFloat(eventTimeArr[2]);
     const eventHour = parseFloat(eventTimeArr[3]);
     // convert event time to GMT0
-    const eventMinute =
-      parseFloat(eventTimeArr[4]) + getEventTimeZoneOffset(timeZone);
+    const eventMinute = parseFloat(eventTimeArr[4]);
 
-    const currentDayMinutes = hour * 60 + minute;
-    const eventDayMinutes = eventHour * 60 + eventMinute;
+    
+
+    const currentTotalMinutes =
+      convertToMinutes(day, hour, minute) + currentTime.getTimezoneOffset();
+    const eventTotalMinutes =
+      convertToMinutes(eventDay, eventHour, eventMinute) - getEventTimeZoneOffset(timeZone);
 
     if (eventYear === year && eventMonth === month && eventDay === day) {
-      if (currentDayMinutes <= eventDayMinutes + duration) {
+      if (currentTotalMinutes <= eventTotalMinutes + duration) {
         setButtonEnabled(true);
       }
 
-      if (currentDayMinutes >= eventDayMinutes + duration) {
+      if (currentTotalMinutes >= eventTotalMinutes + duration) {
         setButtonEnabled(false);
         setIsLate(true);
       }
@@ -99,6 +103,7 @@ export default function SubmitButton({
         </button>
         <button
           className="button-blocker"
+          type="button"
           onClick={() => setDisplayMessage(true)}
         />
         {displayMessage &&
