@@ -48,15 +48,14 @@ export default function SubmitButton({
     const eventTimeConverted = new Date(eventDate + "T" + eventTime);
     // adjust time to UTC0
     const eventTimeAdjusted =
-      eventTimeConverted - eventTimeConverted.getTimezoneOffset();
-
+      eventTimeConverted - toMiliseconds(getEventTimeZoneOffset(timeZone));
     // get system time
     const currentTime = new Date();
     // adjust to UTC0
-    const currentTimeAdjusted = currentTime - currentTime.getTimezoneOffset();
+    const currentTimeAdjusted =
+      currentTime.getTime() + toMiliseconds(currentTime.getTimezoneOffset());
 
-    console.log({ currentTimeAdjusted });
-    if (currentTimeAdjusted > eventTimeAdjusted - toMiliseconds(30)) {
+    if (currentTime > eventTimeAdjusted - toMiliseconds(30)) {
       setButtonEnabled(true);
     }
 
