@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import getEventTimeZoneOffset from './utilities/getEventTimeZoneOffset';
-import convertToMinutes from './utilities/convertToMinutes';
+import { useEffect, useState } from "react";
+import styled from "styled-components";
+import getEventTimeZoneOffset from "./utilities/getEventTimeZoneOffset";
+import toMiliseconds from "./utilities/convertMiliseconds";
 
 export default function SubmitButton({
   buttonText,
   queryData,
   setLoading,
   eventDuration,
-  timeZone
+  timeZone,
 }) {
   const [buttonEnabled, setButtonEnabled] = useState(false);
   const [displayMessage, setDisplayMessage] = useState(false);
@@ -21,58 +21,47 @@ export default function SubmitButton({
       const response = await fetch(
         `https://staging.ishayoga.eu/index.php/webinar-join-now/`,
         {
-          method: 'POST',
+          method: "POST",
           body: JSON.stringify({
             tokenId: queryData.tokenId,
-            regId: queryData.regId
-          })
+            regId: queryData.regId,
+          }),
         }
       );
       const res = await response.json();
       console.log(res);
       window.location = res[0].redirect_url;
       setLoading(false);
-      if (res.status === 'ERROR') {
-        console.log('no match found for tokenId or regId');
+      if (res.status === "ERROR") {
+        console.log("no match found for tokenId or regId");
       }
     } catch (err) {
       console.log(err);
     }
   };
 
-  const checkTime = (eventTime, duration) => {
+  const checkTime = (t, duration) => {
+    // convert date and time url param to ISO string:
+    const eventTimeArr = t.split("-");
+    const eventDate = eventTimeArr.slice(0, 3).join("-");
+    const eventTime = eventTimeArr.slice(3, 5).join(":");
+    const eventTimeConverted = new Date(eventDate + "T" + eventTime);
+    // adjust time to UTC0
+    const eventTimeAdjusted =
+      eventTimeConverted - eventTimeConverted.getTimezoneOffset();
+
+    // get system time
     const currentTime = new Date();
-    // convert system time to GMT0
-    const minute = currentTime.getMinutes();
-    const hour = currentTime.getHours();
-    const day = currentTime.getDate();
-    const month = currentTime.getMonth() + 1;
-    const year = currentTime.getFullYear();
+    // adjust to UTC0
+    const currentTimeAdjusted = currentTime - currentTime.getTimezoneOffset();
 
-    const eventTimeArr = eventTime.split('-');
-    const eventYear = parseFloat(eventTimeArr[0]);
-    const eventMonth = parseFloat(eventTimeArr[1]);
-    const eventDay = parseFloat(eventTimeArr[2]);
-    const eventHour = parseFloat(eventTimeArr[3]);
-    // convert event time to GMT0
-    const eventMinute = parseFloat(eventTimeArr[4]);
+    console.log({ currentTimeAdjusted });
+    if (currentTimeAdjusted > eventTimeAdjusted - toMiliseconds(30)) {
+      setButtonEnabled(true);
+    }
 
-    
-
-    const currentTotalMinutes =
-      convertToMinutes(day, hour, minute) + currentTime.getTimezoneOffset();
-    const eventTotalMinutes =
-      convertToMinutes(eventDay, eventHour, eventMinute) - getEventTimeZoneOffset(timeZone);
-
-    if (eventYear === year && eventMonth === month && eventDay === day) {
-      if (currentTotalMinutes <= eventTotalMinutes + duration) {
-        setButtonEnabled(true);
-      }
-
-      if (currentTotalMinutes >= eventTotalMinutes + duration) {
-        setButtonEnabled(false);
-        setIsLate(true);
-      }
+    if (currentTimeAdjusted > eventTimeAdjusted + toMiliseconds(duration)) {
+      setButtonEnabled(false);
     }
   };
 
@@ -112,7 +101,7 @@ export default function SubmitButton({
           ) : (
             <p
               className="error-message"
-              onClick={() => setDisplayMessage(false)}
+              onClick={(() => setDisplayMessage(false), () => setIsLate(false))}
             >
               You may only enter the session up to 30 minutes before the start
               time
@@ -132,9 +121,9 @@ const FormContainer = styled.div`
 
     .button-submit {
       background: ${(props) =>
-        props.$buttonEnabled ? 'var(--orange)' : '#ebebeb'};
+        props.$buttonEnabled ? "var(--orange)" : "#ebebeb"};
       color: ${(props) =>
-        props.$buttonEnabled ? 'white' : 'var(--beigeDarker)'};
+        props.$buttonEnabled ? "white" : "var(--beigeDarker)"};
       border: none;
       padding: 0.5rem 2rem;
       margin-bottom: 1rem;
@@ -145,7 +134,7 @@ const FormContainer = styled.div`
     }
 
     .button-blocker {
-      display: ${(props) => (props.$buttonEnabled ? 'none' : 'initial')};
+      display: ${(props) => (props.$buttonEnabled ? "none" : "initial")};
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
