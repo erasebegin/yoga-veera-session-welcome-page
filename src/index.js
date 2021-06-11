@@ -1,17 +1,10 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import {BrowserRouter, Switch, Route} from 'react-router-dom'
-import App from './App';
-import fourOhFour from './fourOhFour';
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Switch>
-        <Route path="/" exact component={App}/>
-        <Route path="*" component={fourOhFour}/>
-      </Switch>
-    </BrowserRouter>
+    <App />
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );

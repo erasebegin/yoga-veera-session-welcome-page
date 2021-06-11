@@ -1,14 +1,18 @@
-import { useState } from 'react';
-import './global.css';
-import EVENT_DATA from './data/events';
-import PAGE_TEXT from './data/text';
-import styled from 'styled-components';
-import SubmitButton from './SubmitButton';
-import Carousel from './Carousel';
-import getEventType from './utilities/getEventType';
-
-import separator from './images/divider-orange.svg';
-import feathers from './images/feathers.svg';
+import { useState } from "react";
+import "./global.css";
+import styled from "styled-components";
+// DATA
+import EVENT_DATA from "./data/events";
+import PAGE_TEXT from "./data/text";
+// COMPONENTS
+import SubmitButton from "./components/SubmitButton";
+import Carousel from "./components/Carousel";
+import Modal from "./components/Modal";
+// UTILITIES
+import getEventType from "./utilities/getEventType";
+// IMAGES
+import separator from "./images/divider-orange.svg";
+import feathers from "./images/feathers.svg";
 
 // test url:
 // http://localhost:3000/?lang=en&eventType=wellbeing&eventId=67543&tokenId=754754&regId=75347&t=2021-05-06-18-30&tz=BST&eventTitle=Yoga%20for%20Wellbeing
@@ -36,15 +40,33 @@ function App() {
   const text = PAGE_TEXT[queryData?.lang] || {};
   const event = EVENT_DATA[getEventType(queryData?.eventType)] || {};
   const { h1, h3, h4, p2, p5, ul, btn1, btn2, btn3, quote1 } = text || {};
-  const eventTitle = queryData.eventTitle || '';
+  const eventTitle = queryData.eventTitle || "";
   const [loading, setLoading] = useState(false);
+  const [noUrl, setNoUrl] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [isLate, setIsLate] = useState(false);
+  const [isEarly, setIsEarly] = useState(false);
 
   if (Object.keys(queryData).length <= 0) {
-    return <p style={{ paddingLeft: '3rem' }}>Please provide query params</p>;
+    return <p style={{ paddingLeft: "3rem" }}>Please provide query params</p>;
+  }
+
+  if (!event) {
+    return (
+      <p style={{ paddingLeft: "3rem" }}>This is not a recognised event type</p>
+    );
   }
 
   return (
     <Container $loading={loading}>
+      <Modal
+        modalOpen={modalOpen}
+        setModalOpen={setModalOpen}
+        noUrl={noUrl}
+        isLate={isLate}
+        isEarly={isEarly}
+        lang={queryData.lang}
+      />
       <main>
         <header>
           <div className="overlay" />
@@ -62,6 +84,11 @@ function App() {
               setLoading={setLoading}
               eventDuration={parseInt(event.duration)}
               timeZone={queryData.tz}
+              setNoUrl={setNoUrl}
+              setModalOpen={setModalOpen}
+              isLate={isLate}
+              setIsLate={setIsLate}
+              setIsEarly={setIsEarly}
             />
           </div>
           <img
@@ -76,7 +103,7 @@ function App() {
           />
         </header>
         <div className="navbar">
-          <a href="#webinar-guidelines">{btn2}</a>{' '}
+          <a href="#webinar-guidelines">{btn2}</a>{" "}
           <a href="#sharings">{btn3}</a>
         </div>
         <div className="feather-quote">
@@ -94,7 +121,7 @@ function App() {
           <h2>{h3}</h2>
           <ul className="instructions">
             {ul?.map((listItem, index) => {
-              if (typeof listItem === 'function') {
+              if (typeof listItem === "function") {
                 return <li key={index}>{listItem(event.duration)}</li>;
               }
               return <li key={index}>{listItem}</li>;
@@ -108,6 +135,11 @@ function App() {
               setLoading={setLoading}
               eventDuration={parseInt(event.duration)}
               timeZone={queryData.tz}
+              setNoUrl={setNoUrl}
+              setModalOpen={setModalOpen}
+              isLate={isLate}
+              setIsLate={setIsLate}
+              setIsEarly={setIsEarly}
             />
             <p>{p5}</p>
           </div>
@@ -119,7 +151,7 @@ function App() {
           </div>
           <footer className="footer">
             <h2>{h4}</h2>
-            {queryData?.region === 'EU' ? (
+            {queryData?.region === "EU" ? (
               <a href="mailto:webinar.europe@ishafoundation.org">
                 webinar.europe@ishafoundation.org
               </a>
@@ -173,7 +205,7 @@ const Container = styled.div`
       }
 
       h1 {
-        font-family: 'Fira Sans', sans-serif;
+        font-family: "Fira Sans", sans-serif;
         font-weight: 600;
         letter-spacing: 0.05rem;
         font-size: 2.5rem;
@@ -183,7 +215,7 @@ const Container = styled.div`
       }
 
       h2 {
-        font-family: 'Fedra Sans', serif;
+        font-family: "Fedra Sans", serif;
         font-weight: 300;
         font-size: 2rem;
       }
@@ -313,7 +345,7 @@ const Container = styled.div`
     }
 
     h1 {
-      font-family: 'Merriweather', serif;
+      font-family: "Merriweather", serif;
       margin-bottom: 3rem;
       margin-left: 0.5rem;
     }
@@ -361,7 +393,7 @@ const Container = styled.div`
         margin: 6rem 0;
 
         h2 {
-          font-family: 'Merriweather', serif;
+          font-family: "Merriweather", serif;
           margin-bottom: 0;
         }
 
