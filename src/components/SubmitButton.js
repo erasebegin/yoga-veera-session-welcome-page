@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import styled from "styled-components";
-import getEventTimeZoneOffset from "../utilities/getEventTimeZoneOffset";
-import toMiliseconds from "../utilities/convertMiliseconds";
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import getEventTimeZoneOffset from '../utilities/getEventTimeZoneOffset';
+import { toMiliseconds } from '../utilities/convertTime';
 
 export default function SubmitButton({
   buttonText,
@@ -12,7 +12,7 @@ export default function SubmitButton({
   setNoUrl,
   setModalOpen,
   setIsLate,
-  setIsEarly,
+  setIsEarly
 }) {
   const [buttonEnabled, setButtonEnabled] = useState(false);
 
@@ -23,11 +23,11 @@ export default function SubmitButton({
       const response = await fetch(
         `https://staging.ishayoga.eu/index.php/webinar-join-now/`,
         {
-          method: "POST",
+          method: 'POST',
           body: JSON.stringify({
             tokenId: queryData.tokenId,
-            regId: queryData.regId,
-          }),
+            regId: queryData.regId
+          })
         }
       );
       const res = await response.json();
@@ -37,23 +37,21 @@ export default function SubmitButton({
         setNoUrl(true);
         setModalOpen(true);
       }
-      setLoading(false);
-      if (res.status === "ERROR") {
-        console.log("no match found for tokenId or regId");
+      if (res.status === 'ERROR') {
+        console.log('no match found for tokenId or regId');
       }
+      setLoading(false);
     } catch (err) {
       console.log(err);
     }
   };
 
-  const checkClassStatus = () => {};
-
   const checkTime = (t, duration) => {
     // convert date and time url param to ISO string:
-    const eventTimeArr = t.split("-");
-    const eventDate = eventTimeArr.slice(0, 3).join("-");
-    const eventTime = eventTimeArr.slice(3, 5).join(":");
-    const eventTimeConverted = new Date(eventDate + "T" + eventTime);
+    const eventTimeArr = t.split('-');
+    const eventDate = eventTimeArr.slice(0, 3).join('-');
+    const eventTime = eventTimeArr.slice(3, 5).join(':');
+    const eventTimeConverted = new Date(eventDate + 'T' + eventTime);
     // adjust time to UTC0
     const eventTimeAdjusted =
       eventTimeConverted - toMiliseconds(getEventTimeZoneOffset(timeZone));
@@ -62,21 +60,25 @@ export default function SubmitButton({
     // adjust to UTC0
     const currentTimeAdjusted =
       currentTime.getTime() + toMiliseconds(currentTime.getTimezoneOffset());
-
-    if (currentTime > eventTimeAdjusted - toMiliseconds(30)) {
-      setButtonEnabled(true);
+    console.log(new Date(eventTimeAdjusted));
+    console.log(new Date(currentTimeAdjusted));
+    if (currentTimeAdjusted < eventTimeAdjusted - toMiliseconds(30)) {
+      setButtonEnabled(false);
+      setIsEarly(true);
     }
 
-    if (currentTimeAdjusted > eventTimeAdjusted + toMiliseconds(duration)) {
-      setIsLate(true);
-      setButtonEnabled(false);
-    } else {
-      setIsEarly(true);
+    if (currentTimeAdjusted > eventTimeAdjusted - toMiliseconds(30)) {
+      if (currentTimeAdjusted > eventTimeAdjusted + toMiliseconds(duration)) {
+        setIsLate(true);
+        setButtonEnabled(false);
+      } else {
+        setButtonEnabled(true);
+      }
     }
   };
 
   useEffect(() => {
-    checkTime(queryData.t, eventDuration);
+    checkTime(queryData?.t, eventDuration);
   }, []);
 
   useEffect(() => {
@@ -119,9 +121,9 @@ const FormContainer = styled.div`
 
     .button-submit {
       background: ${(props) =>
-        props.$buttonEnabled ? "var(--orange)" : "#ebebeb"};
+        props.$buttonEnabled ? 'var(--orange)' : '#ebebeb'};
       color: ${(props) =>
-        props.$buttonEnabled ? "white" : "var(--beigeDarker)"};
+        props.$buttonEnabled ? 'white' : 'var(--beigeDarker)'};
       border: none;
       padding: 0.5rem 2rem;
       margin-bottom: 1rem;
@@ -133,7 +135,7 @@ const FormContainer = styled.div`
     }
 
     .button-blocker {
-      display: ${(props) => (props.$buttonEnabled ? "none" : "initial")};
+      display: ${(props) => (props.$buttonEnabled ? 'none' : 'initial')};
       position: absolute;
       left: 50%;
       transform: translateX(-50%);

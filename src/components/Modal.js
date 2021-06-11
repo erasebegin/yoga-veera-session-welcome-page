@@ -1,44 +1,48 @@
-import { useState, useEffect } from "react";
-import styled from "styled-components";
-import { FaTimes } from "react-icons/fa";
-import TEXT from "../data/text";
+import { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import { FaTimes } from 'react-icons/fa';
+import TEXT from '../data/text';
+import { formatDate, formatTime } from '../utilities/convertTime';
 
 export default function Modal({
   modalOpen,
   setModalOpen,
-  lang = "en",
+  lang = 'en',
   isLate,
   isEarly,
   noUrl,
+  eventTime
 }) {
   const close = (e) => {
-    if (e.target.classList.contains("outer-container")) {
+    if (e.target.classList.contains('outer-container')) {
       setModalOpen(false);
     }
   };
 
   const [title, setTitle] = useState(
-    TEXT[lang]?.errDefault.title || "Something went wrong."
+    TEXT[lang]?.errDefault.title || 'Something went wrong.'
   );
-  const [text, setText] = useState(TEXT[lang]?.errDefault.text || "");
+  const [text, setText] = useState(TEXT[lang]?.errDefault.text || '');
+
+  const date = formatDate(eventTime);
+  const time = formatTime(eventTime);
 
   useEffect(() => {
     if (noUrl) {
-        setTitle(TEXT[lang]?.errNoUrl.title || "");
-        setText(TEXT[lang]?.errNoUrl.text || "");
+      setTitle(TEXT[lang]?.errNoUrl.title || '');
+      setText(TEXT[lang]?.errNoUrl.text || '');
     }
 
     if (isLate) {
-      setTitle(TEXT[lang]?.errClassOver.title || "");
-      setText(TEXT[lang]?.errClassOver.text || "");
+      setTitle(TEXT[lang]?.errClassOver.title || '');
+      setText(TEXT[lang]?.errClassOver.text || '');
     }
 
     if (isEarly) {
-      setTitle(TEXT[lang]?.errTooEarly.title || "");
-      setText(TEXT[lang]?.errTooEarly.text || "");
+      setTitle(TEXT[lang]?.errTooEarly.title || '');
+      setText(TEXT[lang]?.errTooEarly.text(date, time) || '');
     }
-
-  }, []);
+  });
 
   return (
     <Container
@@ -72,7 +76,7 @@ const Container = styled.div`
   height: 100%;
   background: rgba(0, 0, 0, 0.4);
   z-index: 50;
-  display: ${(props) => (props.modalOpen ? "initial" : "none")};
+  display: ${(props) => (props.modalOpen ? 'initial' : 'none')};
 
   .modal-body {
     position: absolute;
@@ -96,7 +100,7 @@ const Container = styled.div`
     }
 
     h1 {
-      font-family: "Merriweather", serif;
+      font-family: 'Merriweather', serif;
       font-weight: 600;
       letter-spacing: 0.05rem;
       font-size: 2rem;

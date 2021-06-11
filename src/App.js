@@ -66,6 +66,7 @@ function App() {
         isLate={isLate}
         isEarly={isEarly}
         lang={queryData.lang}
+        eventTime={queryData?.t}
       />
       <main>
         <header>
