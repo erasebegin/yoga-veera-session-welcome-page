@@ -170,3 +170,7 @@ code {
     url(./fonts/FedraSansStd-Bold.otf) format("opentype");
   font-weight: 700;
 }
+
+footer {
+  padding: 3rem;
+}

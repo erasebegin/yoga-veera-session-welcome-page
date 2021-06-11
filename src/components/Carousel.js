@@ -82,9 +82,11 @@ const CarouselContainer = styled(Slider)`
       
       p {
         margin-right: 2rem;
+        font-size: 1.4rem;
         @media(max-width: 700px){
           margin-right: 0;
           margin-top: 2rem;
+          font-size: 1.2rem;
         }
     }
   }

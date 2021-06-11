@@ -150,7 +150,7 @@ function App() {
               alt="leaf print with horizonal black lines (separator)"
             />
           </div>
-          <footer className="footer">
+          <section className="bottom-section">
             <h2>{h4}</h2>
             {queryData?.region === "EU" ? (
               <a href="mailto:webinar.europe@ishafoundation.org">
@@ -171,7 +171,7 @@ function App() {
               </div>
               <Carousel />
             </div>
-          </footer>
+          </section>
         </div>
       </main>
     </Container>
@@ -373,20 +373,25 @@ const Container = styled.div`
       }
     }
 
-    footer {
+    .bottom-section {
       text-align: center;
 
       h2 {
-        margin-bottom: 0;
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
       }
 
       a {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
         color: black;
         text-decoration: none;
 
         &:hover {
-          text-decoration: underline;
+          text-decoration: underline !important;
+        }
+
+        @media(max-width:700px){
+          font-size: 1rem;
         }
       }
 
@@ -396,10 +401,6 @@ const Container = styled.div`
         h2 {
           font-family: "Merriweather", serif;
           margin-bottom: 0;
-        }
-
-        p {
-          font-size: 1.4rem;
         }
       }
     }
