@@ -1,18 +1,19 @@
-import { useState } from "react";
-import "./global.css";
-import styled from "styled-components";
+import { useState } from 'react';
+import './global.css';
+import styled, { css } from 'styled-components';
+import ClipLoader from 'react-spinners/ClipLoader';
 // DATA
-import EVENT_DATA from "./data/events";
-import PAGE_TEXT from "./data/text";
+import EVENT_DATA from './data/events';
+import PAGE_TEXT from './data/text';
 // COMPONENTS
-import SubmitButton from "./components/SubmitButton";
-import Carousel from "./components/Carousel";
-import Modal from "./components/Modal";
+import SubmitButton from './components/SubmitButton';
+import Carousel from './components/Carousel';
+import Modal from './components/Modal';
 // UTILITIES
-import getEventType from "./utilities/getEventType";
+import getEventType from './utilities/getEventType';
 // IMAGES
-import separator from "./images/divider-orange.svg";
-import feathers from "./images/feathers.svg";
+import separator from './images/divider-orange.svg';
+import feathers from './images/feathers.svg';
 
 // test url:
 // http://localhost:3000/?lang=en&eventType=wellbeing&eventId=67543&tokenId=754754&regId=75347&t=2021-05-06-18-30&tz=BST&eventTitle=Yoga%20for%20Wellbeing
@@ -37,10 +38,10 @@ function App() {
   };
 
   const queryData = parseParams(window.location.search);
-  const text = PAGE_TEXT[queryData?.lang] || {};
+  const text = PAGE_TEXT[queryData?.lang] || PAGE_TEXT.en || {};
   const event = EVENT_DATA[getEventType(queryData?.eventType)] || {};
   const { h1, h3, h4, p2, p5, ul, btn1, btn2, btn3, quote1 } = text || {};
-  const eventTitle = queryData.eventTitle || "";
+  const eventTitle = queryData.eventTitle || '';
   const [loading, setLoading] = useState(false);
   const [noUrl, setNoUrl] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -48,17 +49,28 @@ function App() {
   const [isEarly, setIsEarly] = useState(false);
 
   if (Object.keys(queryData).length <= 0) {
-    return <p style={{ paddingLeft: "3rem" }}>Please provide query params</p>;
+    return <p style={{ paddingLeft: '3rem' }}>Please provide query params</p>;
   }
 
   if (!event) {
     return (
-      <p style={{ paddingLeft: "3rem" }}>This is not a recognised event type</p>
+      <p style={{ paddingLeft: '3rem' }}>This is not a recognised event type</p>
     );
   }
 
+  const loadingSpinnerShow = css`
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: block;
+  `;
+  const loadingSpinnerHide = css`
+    display: none;
+  `;
+
   return (
     <Container $loading={loading}>
+      <ClipLoader css={loading ? loadingSpinnerShow : loadingSpinnerHide} />
       <Modal
         modalOpen={modalOpen}
         setModalOpen={setModalOpen}
@@ -104,7 +116,7 @@ function App() {
           />
         </header>
         <div className="navbar">
-          <a href="#webinar-guidelines">{btn2}</a>{" "}
+          <a href="#webinar-guidelines">{btn2}</a>{' '}
           <a href="#sharings">{btn3}</a>
         </div>
         <div className="feather-quote">
@@ -122,7 +134,7 @@ function App() {
           <h2>{h3}</h2>
           <ul className="instructions">
             {ul?.map((listItem, index) => {
-              if (typeof listItem === "function") {
+              if (typeof listItem === 'function') {
                 return <li key={index}>{listItem(event.duration)}</li>;
               }
               return <li key={index}>{listItem}</li>;
@@ -152,7 +164,7 @@ function App() {
           </div>
           <section className="bottom-section">
             <h2>{h4}</h2>
-            {queryData?.region === "EU" ? (
+            {queryData?.region === 'EU' ? (
               <a href="mailto:webinar.europe@ishafoundation.org">
                 webinar.europe@ishafoundation.org
               </a>
@@ -181,6 +193,12 @@ function App() {
 const Container = styled.div`
   background: #f7f1e3;
 
+  .loading-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+  }
+
   header {
     position: relative;
     .banner-content {
@@ -206,7 +224,7 @@ const Container = styled.div`
       }
 
       h1 {
-        font-family: "Fira Sans", sans-serif;
+        font-family: 'Fira Sans', sans-serif;
         font-weight: 600;
         letter-spacing: 0.05rem;
         font-size: 2.5rem;
@@ -214,17 +232,17 @@ const Container = styled.div`
         margin-bottom: 1.5rem;
         line-height: 3.1rem;
 
-        @media(max-width:800px){
+        @media (max-width: 800px) {
           font-size: 2rem;
         }
       }
-      
+
       h2 {
-        font-family: "Fedra Sans", serif;
+        font-family: 'Fedra Sans', serif;
         font-weight: 300;
         font-size: 2rem;
 
-        @media(max-width:800px){
+        @media (max-width: 800px) {
           font-size: 1.7rem;
         }
       }
@@ -333,7 +351,7 @@ const Container = styled.div`
         max-width: 700px;
         margin: 1rem auto;
 
-        @media(max-width: 700px) {
+        @media (max-width: 700px) {
           padding: 0;
           font-size: 1.3rem;
         }
@@ -350,7 +368,7 @@ const Container = styled.div`
         margin-bottom: 2.5rem;
         font-size: 1.9rem;
 
-        @media(max-width: 700px){
+        @media (max-width: 700px) {
           font-size: 1.4rem;
         }
       }
@@ -360,7 +378,7 @@ const Container = styled.div`
         font-size: 1.2rem;
         margin-bottom: 2rem;
         line-height: 2rem;
-        
+
         @media (max-width: 700px) {
           font-size: 1.1rem;
         }
@@ -368,7 +386,7 @@ const Container = styled.div`
     }
 
     h1 {
-      font-family: "Merriweather", serif;
+      font-family: 'Merriweather', serif;
       margin-bottom: 3rem;
       margin-left: 0.5rem;
     }
@@ -417,7 +435,7 @@ const Container = styled.div`
           text-decoration: underline !important;
         }
 
-        @media(max-width:700px){
+        @media (max-width: 700px) {
           font-size: 1rem;
           text-decoration: underline;
         }
@@ -427,8 +445,12 @@ const Container = styled.div`
         margin: 6rem 0;
 
         h2 {
-          font-family: "Merriweather", serif;
+          font-family: 'Merriweather', serif;
           margin-bottom: 0;
+        }
+
+        .separator img {
+          margin-top: 0;
         }
       }
     }

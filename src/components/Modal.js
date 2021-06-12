@@ -40,16 +40,6 @@ export default function Modal({
     }
   });
 
-  const body = document.querySelector('body');
-
-  useEffect(() => {
-    if (modalOpen) {
-      body.style.overflow = 'hidden';
-    } else {
-      body.style.overflow = 'scroll';
-    }
-  }, [modalOpen]);
-
   return (
     <Container
       modalOpen={modalOpen}
@@ -80,6 +70,10 @@ const Container = styled.div`
   position: fixed;
   width: 100%;
   height: 100%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
   background: rgba(0, 0, 0, 0.4);
   z-index: 50;
   display: ${(props) => (props.modalOpen ? 'initial' : 'none')};

@@ -83,12 +83,18 @@ const pageText = {
       text: 'We were not able to carry out this action.'
     },
     errClassOver: {
-      title: 'Oops, the class is already over',
+      title: 'Oops, the class is already over.',
       text: ''
     },
     errTooEarly: {
-      title: "This session hasn't openend yet",
-      text: ''
+      title: "This session hasn't openend yet.",
+      text: function (date, time) {
+        return `It will begin on ${date} at ${time}.`;
+      }
+    },
+    errNoUrl: {
+      title: 'Oops, something went wrong.',
+      text: 'This session does not appear to exist.'
     }
   }
 };
