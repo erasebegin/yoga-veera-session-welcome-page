@@ -60,12 +60,12 @@ export default function SubmitButton({
     // adjust to UTC0
     const currentTimeAdjusted =
       currentTime.getTime() + toMiliseconds(currentTime.getTimezoneOffset());
-    if (currentTimeAdjusted < eventTimeAdjusted - toMiliseconds(30)) {
+    if (currentTimeAdjusted < eventTimeAdjusted - toMiliseconds(60)) {
       setButtonEnabled(false);
       setIsEarly(true);
     }
 
-    if (currentTimeAdjusted > eventTimeAdjusted - toMiliseconds(30)) {
+    if (currentTimeAdjusted > eventTimeAdjusted - toMiliseconds(60)) {
       if (currentTimeAdjusted > eventTimeAdjusted + toMiliseconds(duration)) {
         setIsLate(true);
         setButtonEnabled(false);
