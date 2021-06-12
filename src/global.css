@@ -171,6 +171,16 @@ code {
   font-weight: 700;
 }
 
+/* Corrections to imported styled from main site */
+
 footer {
   padding: 3rem;
+}
+
+@media(max-width: 945px){
+  .logo .logo-img {
+    max-height: 30px;
+    margin-top: 8px;
+    margin-left: 10px;
+  }
 }

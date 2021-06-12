@@ -31,18 +31,24 @@ export default function Modal({
     if (noUrl) {
       setTitle(TEXT[lang]?.errNoUrl.title || '');
       setText(TEXT[lang]?.errNoUrl.text || '');
-    }
-
-    if (isLate) {
+    } else if (isLate) {
       setTitle(TEXT[lang]?.errClassOver.title || '');
       setText(TEXT[lang]?.errClassOver.text || '');
-    }
-
-    if (isEarly) {
+    } else if (isEarly) {
       setTitle(TEXT[lang]?.errTooEarly.title || '');
       setText(TEXT[lang]?.errTooEarly.text(date, time) || '');
     }
   });
+
+  const body = document.querySelector('body');
+
+  useEffect(() => {
+    if (modalOpen) {
+      body.style.overflow = 'hidden';
+    } else {
+      body.style.overflow = 'scroll';
+    }
+  }, [modalOpen]);
 
   return (
     <Container
@@ -87,6 +93,10 @@ const Container = styled.div`
     padding: 3rem;
     border-radius: 5px;
 
+    @media (max-width: 700px) {
+      padding: 2rem 1rem;
+    }
+
     .close-button {
       position: absolute;
       right: 0;
@@ -111,6 +121,7 @@ const Container = styled.div`
 
       @media (max-width: 700px) {
         text-align: center;
+        font-size: 1.4rem;
       }
 
       .break {
@@ -124,6 +135,15 @@ const Container = styled.div`
     p {
       line-height: 1.7rem;
       font-size: 1.3rem;
+
+      @media (max-width: 700px) {
+        text-align: center;
+        font-size: 1rem;
+      }
+
+      a {
+        color: blue;
+      }
     }
   }
 `;

@@ -213,12 +213,20 @@ const Container = styled.div`
         margin: 0;
         margin-bottom: 1.5rem;
         line-height: 3.1rem;
-      }
 
+        @media(max-width:800px){
+          font-size: 2rem;
+        }
+      }
+      
       h2 {
         font-family: "Fedra Sans", serif;
         font-weight: 300;
         font-size: 2rem;
+
+        @media(max-width:800px){
+          font-size: 1.7rem;
+        }
       }
       // separator
       img {
@@ -241,6 +249,7 @@ const Container = styled.div`
 
     .header-image {
       width: 100%;
+      display: initial;
 
       &.mobile {
         display: none;
@@ -323,6 +332,11 @@ const Container = styled.div`
         padding: 0 3rem;
         max-width: 700px;
         margin: 1rem auto;
+
+        @media(max-width: 700px) {
+          padding: 0;
+          font-size: 1.3rem;
+        }
       }
     }
 
@@ -335,6 +349,10 @@ const Container = styled.div`
         color: var(--blueDarker);
         margin-bottom: 2.5rem;
         font-size: 1.9rem;
+
+        @media(max-width: 700px){
+          font-size: 1.4rem;
+        }
       }
 
       li {
@@ -342,6 +360,10 @@ const Container = styled.div`
         font-size: 1.2rem;
         margin-bottom: 2rem;
         line-height: 2rem;
+        
+        @media (max-width: 700px) {
+          font-size: 1.1rem;
+        }
       }
     }
 
@@ -359,6 +381,11 @@ const Container = styled.div`
       p {
         margin-top: 1rem;
         font-size: 1.3rem;
+        line-height: 2rem;
+
+        @media (max-width: 700px) {
+          font-size: 1.1rem;
+        }
       }
     }
 
@@ -392,6 +419,7 @@ const Container = styled.div`
 
         @media(max-width:700px){
           font-size: 1rem;
+          text-decoration: underline;
         }
       }
 

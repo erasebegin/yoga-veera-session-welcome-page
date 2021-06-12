@@ -66,28 +66,43 @@ export default function Carousel() {
 }
 
 const CarouselContainer = styled(Slider)`
+  margin-left: 0.8rem;
+  margin-right: 1rem;
   .slide-container {
-      display: flex !important;
-      align-items: center;
-      font-weight: 300;
+    display: flex !important;
+    align-items: center;
+    font-weight: 300;
 
-      @media(max-width: 700px){
-        flex-direction: column;
+    @media (max-width: 700px) {
+      flex-direction: column;
+    }
+
+    img {
+      margin-right: 2rem;
+      margin-left: 2rem;
+    }
+
+    p {
+      margin-right: 2rem;
+      font-size: 1.4rem;
+      @media (max-width: 700px) {
+        margin-right: 0;
+        margin-top: 2rem;
+        font-size: 1.2rem;
       }
-      
-      img {
-        margin-right: 2rem;
-        margin-left: 2rem;
-      }
-      
-      p {
-        margin-right: 2rem;
-        font-size: 1.4rem;
-        @media(max-width: 700px){
-          margin-right: 0;
-          margin-top: 2rem;
-          font-size: 1.2rem;
-        }
+    }
+  }
+
+  @media (max-width: 700px) {
+    .slick-next {
+      top: 5rem;
+      /* right: 2%; */
+    }
+
+    .slick-prev {
+      top: 5rem;
+      /* margin-left: 2rem; */
+      /* left: 2%; */
     }
   }
 `;
