@@ -4,7 +4,7 @@ import image2 from '../images/main-banner-mobile.png';
 const events = {
   wellbeing: {
     description:
-      'foreground: hands holding phone displaying image of person practicing yoga. background: laptop on table displaying same image as phone',
+      'foreground: hands holding phone displaying image of person practicing yoga. background: laptop on table displaying same image as phone (wellbeing)',
     images: {
       desktop: image,
       mobile: image2

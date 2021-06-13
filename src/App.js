@@ -134,6 +134,7 @@ function App() {
           <h2>{h3}</h2>
           <ul className="instructions">
             {ul?.map((listItem, index) => {
+              console.log(getEventType('meditation'));
               if (typeof listItem === 'function') {
                 return <li key={index}>{listItem(event.duration)}</li>;
               }

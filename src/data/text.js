@@ -83,11 +83,11 @@ const pageText = {
       text: 'We were not able to carry out this action.'
     },
     errClassOver: {
-      title: 'Oops, the class is already over.',
+      title: 'Oops, this class is already over.',
       text: ''
     },
     errTooEarly: {
-      title: "This session hasn't openend yet.",
+      title: "This session hasn't opened yet.",
       text: function (date, time) {
         return `It will begin on ${date} at ${time}.`;
       }
