@@ -1,17 +1,16 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { FaTimes } from 'react-icons/fa';
-import TEXT from '../data/text';
 import { formatDate, formatTime } from '../utilities/convertTime';
 
 export default function Modal({
   modalOpen,
   setModalOpen,
-  lang = 'en',
   isLate,
   isEarly,
   noUrl,
-  eventTime
+  eventTime,
+  text
 }) {
   const close = (e) => {
     if (e.target.classList.contains('outer-container')) {
@@ -20,23 +19,23 @@ export default function Modal({
   };
 
   const [title, setTitle] = useState(
-    TEXT[lang]?.errDefault.title || 'Something went wrong.'
+    text.errDefault.title || 'Something went wrong.'
   );
-  const [text, setText] = useState(TEXT[lang]?.errDefault.text || '');
+  const [modalBody, setModalBody] = useState(text.errDefault.text || '');
 
   const date = formatDate(eventTime);
   const time = formatTime(eventTime);
 
   useEffect(() => {
     if (noUrl) {
-      setTitle(TEXT[lang]?.errNoUrl.title || '');
-      setText(TEXT[lang]?.errNoUrl.text || '');
+      setTitle(text?.errNoUrl.title || '');
+      setModalBody(text?.errNoUrl.text || '');
     } else if (isLate) {
-      setTitle(TEXT[lang]?.errClassOver.title || '');
-      setText(TEXT[lang]?.errClassOver.text || '');
+      setTitle(text?.errClassOver.title || '');
+      setModalBody(text?.errClassOver.text || '');
     } else if (isEarly) {
-      setTitle(TEXT[lang]?.errTooEarly.title || '');
-      setText(TEXT[lang]?.errTooEarly.text(date, time) || '');
+      setTitle(text?.errTooEarly.title || '');
+      setModalBody(text?.errTooEarly.text(date, time) || '');
     }
   });
 
@@ -55,7 +54,7 @@ export default function Modal({
           😅
         </h1>
         <p>
-          {text} If you believe this is a mistake please email us at:
+          {modalBody} If you believe this is a mistake please email us at:
           <br /> <br />
           <a href="mailto:webianr.europe@ishafoundation.org">
             webinar.europe@ishafoundation.org
@@ -76,7 +75,9 @@ const Container = styled.div`
   right: 0;
   background: rgba(0, 0, 0, 0.4);
   z-index: 50;
-  display: ${(props) => (props.modalOpen ? 'initial' : 'none')};
+  opacity: ${(props) => (props.modalOpen ? '1' : '0')};
+  pointer-events: ${(props) => (props.modalOpen ? 'initial' : 'none')};
+  transition: opacity 400ms ease-in-out;
 
   .modal-body {
     position: absolute;

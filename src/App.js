@@ -77,7 +77,7 @@ function App() {
         noUrl={noUrl}
         isLate={isLate}
         isEarly={isEarly}
-        lang={queryData.lang}
+        text={text}
         eventTime={queryData?.t}
       />
       <main>
@@ -121,7 +121,7 @@ function App() {
         </div>
         <div className="feather-quote">
           <img src={feathers} alt="feathers" className="feathers" />
-          <blockquote>"{quote1}" - Sadhguru</blockquote>
+          <blockquote>“{quote1}” - Sadhguru</blockquote>
           <p className="subheading">{p2(eventTitle)}</p>
         </div>
         <div className="separator">
@@ -134,7 +134,6 @@ function App() {
           <h2>{h3}</h2>
           <ul className="instructions">
             {ul?.map((listItem, index) => {
-              console.log(getEventType('meditation'));
               if (typeof listItem === 'function') {
                 return <li key={index}>{listItem(event.duration)}</li>;
               }
@@ -378,7 +377,7 @@ const Container = styled.div`
         list-style: disc;
         font-size: 1.2rem;
         margin-bottom: 2rem;
-        line-height: 2rem;
+        line-height: 1.75rem;
 
         @media (max-width: 700px) {
           font-size: 1.1rem;
@@ -400,7 +399,7 @@ const Container = styled.div`
       p {
         margin-top: 1rem;
         font-size: 1.3rem;
-        line-height: 2rem;
+        line-height: 1.75rem;
 
         @media (max-width: 700px) {
           font-size: 1.1rem;
