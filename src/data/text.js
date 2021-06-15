@@ -41,7 +41,7 @@ const pageText = {
       text: ''
     },
     errTooEarly: {
-      title: "This session hasn't openend yet.",
+      title: "This session hasn't started yet.",
       text: function (date, time) {
         return `It will begin on ${date} at ${time}.`;
       }
@@ -92,7 +92,7 @@ const pageText = {
       text: ''
     },
     errTooEarly: {
-      title: "This session hasn't openend yet.",
+      title: "This session hasn't started yet.",
       text: function (date, time) {
         return `It will begin on ${date} at ${time}.`;
       }
