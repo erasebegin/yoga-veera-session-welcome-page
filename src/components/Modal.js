@@ -49,10 +49,7 @@ export default function Modal({
         <button onClick={() => setModalOpen(false)} className="close-button">
           <FaTimes />
         </button>
-        <h1>
-          {title} <br className="break" />
-          😅
-        </h1>
+        <h1>{title}</h1>
         <p>
           {modalBody} 
           <br /><br />
@@ -119,13 +116,6 @@ const Container = styled.div`
       @media (max-width: 700px) {
         text-align: center;
         font-size: 1.4rem;
-      }
-
-      .break {
-        display: none;
-        @media (max-width: 700px) {
-          display: initial;
-        }
       }
     }
 
