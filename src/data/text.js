@@ -45,7 +45,8 @@ const pageText = {
     errNoUrl: {
       title: 'Oops, something went wrong',
       text: 'This session does not appear to exist.'
-    }
+    },
+    errSub: "If you believe this is a mistake please email us at:"
   },
   es: {
     h1: 'Webinar en vivo',
@@ -93,7 +94,8 @@ const pageText = {
     errNoUrl: {
       title: 'Oops, algo ha salido mal',
       text: 'Esta sesión no parece existir.'
-    }
+    },
+    errSub: "Si cree que esto es un error, póngase en contacto con nosotros en:"
   },
   fr: {
     h1: 'Webinaire en direct',
@@ -141,7 +143,8 @@ const pageText = {
     errNoUrl: {
       title: 'Oups, quelque chose a mal tourné',
       text: 'Cette session ne semble pas exister.'
-    }
+    },
+    errSub: "Si vous pensez qu'il s'agit d'une erreur, veuillez nous contacter à l'adresse"
   },
   de: {
     h1: 'Live-Webinar',
@@ -189,7 +192,8 @@ const pageText = {
     errNoUrl: {
       title: 'Hoppla, da ist etwas schief gelaufen',
       text: 'Diese Sitzung scheint nicht zu existieren.'
-    }
+    },
+    errSub:"Wenn Sie glauben, dass dies ein Fehler ist, kontaktieren Sie uns bitte unter:" 
   }
 };
 

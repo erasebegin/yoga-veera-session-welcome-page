@@ -54,8 +54,10 @@ export default function Modal({
           😅
         </h1>
         <p>
-          {modalBody} If you believe this is a mistake please email us at:
-          <br /> <br />
+          {modalBody} 
+          <br /><br />
+          {text.errSub || ''}
+          <br /><br />
           <a href="mailto:webianr.europe@ishafoundation.org">
             webinar.europe@ishafoundation.org
           </a>

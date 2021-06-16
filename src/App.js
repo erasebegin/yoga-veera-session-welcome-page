@@ -40,7 +40,8 @@ function App() {
   const queryData = parseParams(window.location.search);
   const text = PAGE_TEXT[queryData?.lang] || PAGE_TEXT.en || {};
   const event = EVENT_DATA[getEventType(queryData?.eventType)] || {};
-  const { h1, h3, h4, p2, p5, ul, btn1, btn2, btn3, quote1 } = text || {};
+  const quote = text.quotes[getEventType(queryData?.eventType)] || "";
+  const { h1, h3, h4, p2, p5, ul, btn1, btn2, btn3 } = text || {};
   const eventTitle = queryData.eventTitle || '';
   const [loading, setLoading] = useState(false);
   const [noUrl, setNoUrl] = useState(false);
@@ -121,7 +122,7 @@ function App() {
         </div>
         <div className="feather-quote">
           <img src={feathers} alt="feathers" className="feathers" />
-          <blockquote>“{quote1}” - Sadhguru</blockquote>
+          <blockquote>“{quote}” - Sadhguru</blockquote>
           <p className="subheading">{p2(eventTitle)}</p>
         </div>
         <div className="separator">
