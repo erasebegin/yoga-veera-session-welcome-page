@@ -37,10 +37,21 @@ function App() {
     return obj;
   };
 
+  const getEventCategory = (typeString) => {
+    if (typeString.match('Veera')) {
+      return 'yogaveera';
+    } else {
+      return 'foundation';
+    }
+  };
+
   const queryData = parseParams(window.location.search);
   const text = PAGE_TEXT[queryData?.lang] || PAGE_TEXT.en || {};
-  const event = EVENT_DATA[getEventType(queryData?.eventType)] || {};
-  const quote = text.quotes[getEventType(queryData?.eventType)] || "";
+  const eventCategory = getEventCategory(queryData.eventType);
+  const event =
+    EVENT_DATA[eventCategory][getEventType(queryData?.eventType, eventCategory)] || {};
+  const quote =
+    text.quotes[getEventType(queryData?.eventType, eventCategory)] || '';
   const { h1, h3, h4, p2, p5, ul, btn1, btn2, btn3 } = text || {};
   const eventTitle = queryData.eventTitle || '';
   const [loading, setLoading] = useState(false);
@@ -58,6 +69,8 @@ function App() {
       <p style={{ paddingLeft: '3rem' }}>This is not a recognised event type</p>
     );
   }
+
+  console.log(getEventType(queryData?.eventType, eventCategory))
 
   const loadingSpinnerShow = css`
     position: absolute;

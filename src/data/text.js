@@ -26,7 +26,12 @@ const pageText = {
     quotes: {
       wellbeing: 'In search of wellbeing, we have done all kinds of insane things on this planet, but wellbeing has not happened. If wellbeing is what you seek, in is the only way out.',
       meditation: 'Meditation is an opportunity to move into a dimension where there is no such thing as stress within you.',
-      immunity: 'In search of wellbeing, we have done all kinds of insane things on this planet, but wellbeing has not happened. If wellbeing is what you seek, in is the only way out.'
+      immunity: 'In search of wellbeing, we have done all kinds of insane things on this planet, but wellbeing has not happened. If wellbeing is what you seek, in is the only way out.',
+      immunityFoundation: 'In search of wellbeing, we have done all kinds of insane things on this planet, but wellbeing has not happened. If wellbeing is what you seek, in is the only way out.',
+      meditationFoundation: 'Meditation is the only freedom from stress, tension, and anxiety.',
+      success: 'If you want to be successful, don’t seek success – seek competence, empowerment; do nothing short of the best that you can do.',
+      ie: 'If only you can go through difficult times with inner grace, every situation you face will be an opportunity to enhance your life.',
+      food: 'The true joy of eating is in being conscious that another life is willing to become a part of you.'
     },
     errDefault: {
       title: 'Oops, something went wrong',
@@ -75,7 +80,12 @@ const pageText = {
     quotes: {
       wellbeing: 'En busca de bienestar, hemos hecho todo tipo de cosas descabelladas en este planeta, pero no ha sucedido el bienestar. Si lo que buscas es bienestar, la única salida es ir hacia dentro.',
       meditation: 'La meditación es una oportunidad para entrar en una dimensión en la que no hay nada de estrés en tu interior.',
-      immunity: 'En busca de bienestar, hemos hecho todo tipo de cosas descabelladas en este planeta, pero no ha sucedido el bienestar. Si lo que buscas es bienestar, la única salida es ir hacia dentro».'
+      immunity: 'En busca de bienestar, hemos hecho todo tipo de cosas descabelladas en este planeta, pero no ha sucedido el bienestar. Si lo que buscas es bienestar, la única salida es ir hacia dentro.',
+      immunityFoundation: 'En busca de bienestar, hemos hecho todo tipo de cosas descabelladas en este planeta, pero no ha sucedido el bienestar. Si lo que buscas es bienestar, la única salida es ir hacia dentro.',
+      meditationFoundation: 'La meditación es la única forma de librarse del estrés, la tensión y la ansiedad.',
+      success: 'Si quieres tener éxito, no busques el éxito: busca la competencia, el empoderamiento; no hagas nada menos que lo mejor que puedas hacer.',
+      ie: 'Si tan solo puedes atravesar los momentos difíciles con gracia interior, cada situación que afrontes será una oportunidad para mejorar tu vida.',
+      food: 'La verdadera alegría de comer está en ser consciente de que otra vida está dispuesta a convertirse en parte de ti.'
     },
     errDefault: {
       title: 'Oops, algo salió mal',
@@ -124,7 +134,12 @@ const pageText = {
     quotes: {
       wellbeing: 'En quête de bien-être, nous avons fait toutes sortes de choses folles sur cette planète, mais le bien-être n\'est pas arrivé. Si c\'est le bien-être que vous recherchez, la seule issue est à l\'intérieur.',
       meditation: 'La peur, la colère et le stress sont des poisons que vous créez. Si vous prenez la chose en main, vous pouvez créer une chimie de félicité. Façonnez votre bien-être intérieur.',
-      immunity: 'En quête de bien-être, nous avons fait toutes sortes de choses folles sur cette planète, mais le bien-être n\'est pas arrivé. Si c\'est le bien-être que vous recherchez, la seule issue est à l\'intérieur.'
+      immunity: 'Si vous êtes exubérant, joyeux, et merveilleux, votre système immunitaire fonctionnera bien mieux que si vous êtes préoccupé. La plénitude de la vie est la santé.',
+      immunityFoundation: 'Si vous êtes exubérant, joyeux, et merveilleux, votre système immunitaire fonctionnera bien mieux que si vous êtes préoccupé. La plénitude de la vie est la santé.',
+      meditationFoundation: 'La méditation est la seule chose qui libère du stress, de la tension et de l\'anxiété.',
+      success: 'Si vous voulez réussir, ne recherchez pas la réussite – recherchez la compétence, le développement de vos capacités ; faites toujours tout du mieux que vous pouvez.',
+      ie: 'Si vous pouvez traverser les moments difficiles avec grâce intérieurement, chaque situation qui se présente sera une occasion de faire grandir votre vie.',
+      food: 'La vraie joie de manger est dans le fait d\'être conscient qu\'une autre vie est prête à devenir une partie de vous.'
     },
     errDefault: {
       title: 'Oups, quelque chose a mal tourné',
@@ -173,7 +188,12 @@ const pageText = {
     quotes: {
       wellbeing: 'Auf der Suche nach Wohlbefinden haben wir alle möglichen verrückten Dinge auf diesem Planeten getan, aber Wohlbefinden ist nicht eingetreten. Wenn Wohlbefinden das ist, was Du suchst, ist der Weg nach innen der einzige Ausweg.',
       meditation: 'Meditation ist eine Möglichkeit, sich in eine Dimension zu bewegen, in der es nichts derartiges wie Stress in Dir gibt.',
-      immunity: 'Auf der Suche nach Wohlbefinden haben wir alle möglichen verrückten Dinge auf diesem Planeten getan, aber Wohlbefinden ist nicht eingetreten. Wenn Wohlbefinden das ist, was Du suchst, ist der Weg nach innen der einzige Ausweg.'
+      immunity: 'Auf der Suche nach Wohlbefinden haben wir alle möglichen verrückten Dinge auf diesem Planeten getan, aber Wohlbefinden ist nicht eingetreten. Wenn Wohlbefinden das ist, was Du suchst, ist der Weg nach innen der einzige Ausweg.',
+      immunityFoundation: 'Auf der Suche nach Wohlbefinden haben wir alle möglichen verrückten Dinge auf diesem Planeten getan, aber Wohlbefinden ist nicht eingetreten. Wenn Wohlbefinden das ist, was Du suchst, ist der Weg nach innen der einzige Ausweg.',
+      meditationFoundation: 'Meditation ist die einzige Freiheit von Stress, Anspannung und Ängsten.',
+      success: 'Wenn Du erfolgreich sein willst, suche nicht den Erfolg - suche die Kompetenz, die Befähigung; mache nichts weniger als das Beste, was Du tun kannst.',
+      ie: 'Wenn Du nur mit innerer Anmut durch schwierige Zeiten gehen kannst, wird jede Situation, der Du begegnest, eine Gelegenheit sein, Dein Leben zu verbessern.',
+      food: ''
     },
     errDefault: {
       title: 'Ups, da ist etwas schief gelaufen',
