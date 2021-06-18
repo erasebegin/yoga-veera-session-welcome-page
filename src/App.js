@@ -187,7 +187,7 @@ function App() {
                 online.programs@ishafoundation.org
               </a>
             )}
-            <div className="sharings" id="sharings">
+            {/* <div className="sharings" id="sharings">
               <h2>Sharings</h2>
               <div className="separator">
                 <img
@@ -196,7 +196,7 @@ function App() {
                 />
               </div>
               <Carousel />
-            </div>
+            </div> */}
           </section>
         </div>
       </main>
