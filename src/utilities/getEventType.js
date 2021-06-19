@@ -52,7 +52,7 @@ const getEventType = (eventString, eventCategory) => {
     }
   }
 
-  return eventType ? eventType : 'wellbeing';
+  return eventType ? eventType : null;
 };
 
 export default getEventType;

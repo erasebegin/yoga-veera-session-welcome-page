@@ -49,9 +49,11 @@ function App() {
   const text = PAGE_TEXT[queryData?.lang] || PAGE_TEXT.en || {};
   const eventCategory = getEventCategory(queryData.eventType);
   const event =
-    EVENT_DATA[eventCategory][getEventType(queryData?.eventType, eventCategory)] || {};
+    EVENT_DATA[eventCategory][
+      getEventType(queryData?.eventType, eventCategory)
+    ] || EVENT_DATA.yogaveera.wellbeing;
   const quote =
-    text.quotes[getEventType(queryData?.eventType, eventCategory)] || '';
+    text.quotes[getEventType(queryData?.eventType, eventCategory)] || text.quotes['wellbeing'];
   const { h1, h3, h4, p2, p5, ul, btn1, btn2, btn3 } = text || {};
   const eventTitle = queryData.eventTitle || '';
   const [loading, setLoading] = useState(false);
@@ -70,7 +72,7 @@ function App() {
     );
   }
 
-  console.log(getEventType(queryData?.eventType, eventCategory))
+  console.log(getEventType(queryData?.eventType, eventCategory));
 
   const loadingSpinnerShow = css`
     position: absolute;

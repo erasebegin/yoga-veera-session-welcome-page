@@ -21,7 +21,7 @@ export default function SubmitButton({
     setLoading(true);
     try {
       const response = await fetch(
-        `https://staging.ishayoga.eu/index.php/webinar-join-now/`,
+        `https://www.ishayoga.eu/index.php/webinar-join-now/`,
         {
           method: 'POST',
           body: JSON.stringify({
@@ -32,16 +32,22 @@ export default function SubmitButton({
       );
       const res = await response.json();
       if (res[0].redirect_url) {
-        window.location = res[0].redirect_url;
+        window.location = "https://"+res[0].redirect_url;
       } else {
+        console.log(res);
         setNoUrl(true);
         setModalOpen(true);
       }
       if (res.status === 'ERROR') {
+        console.log(res)
+        setNoUrl(true);
+        setModalOpen(true);
         console.log('no match found for tokenId or regId');
       }
       setLoading(false);
     } catch (err) {
+      setNoUrl(true);
+      setModalOpen(true);
       console.log(err);
     }
   };
