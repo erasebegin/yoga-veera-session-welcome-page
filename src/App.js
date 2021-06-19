@@ -7,7 +7,7 @@ import EVENT_DATA from './data/events';
 import PAGE_TEXT from './data/text';
 // COMPONENTS
 import SubmitButton from './components/SubmitButton';
-import Carousel from './components/Carousel';
+// import Carousel from './components/Carousel';
 import Modal from './components/Modal';
 // UTILITIES
 import getEventType from './utilities/getEventType';
@@ -37,23 +37,25 @@ function App() {
     return obj;
   };
 
-  const getEventCategory = (typeString) => {
-    if (typeString.match('Veera')) {
-      return 'yogaveera';
+  const chooseQueryData = () => {
+    if (window.location.hash.length > 0) {
+      console.log('triggered hash')
+      const params = window.location.search + window.location.hash;
+      return parseParams(params);
     } else {
-      return 'foundation';
+      console.log('triggered else')
+      return parseParams(window.location.search);
     }
   };
 
-  const queryData = parseParams(window.location.search);
+  const queryData = chooseQueryData();
+
+  console.log(window.location);
   const text = PAGE_TEXT[queryData?.lang] || PAGE_TEXT.en || {};
-  const eventCategory = getEventCategory(queryData.eventType);
   const event =
-    EVENT_DATA[eventCategory][
-      getEventType(queryData?.eventType, eventCategory)
-    ] || EVENT_DATA.yogaveera.wellbeing;
+    EVENT_DATA[getEventType(queryData?.eventType)] || EVENT_DATA.wellbeing;
   const quote =
-    text.quotes[getEventType(queryData?.eventType, eventCategory)] || text.quotes['wellbeing'];
+    text.quotes[getEventType(queryData?.eventType)] || text.quotes['wellbeing'];
   const { h1, h3, h4, p2, p5, ul, btn1, btn2, btn3 } = text || {};
   const eventTitle = queryData.eventTitle || '';
   const [loading, setLoading] = useState(false);
@@ -71,8 +73,6 @@ function App() {
       <p style={{ paddingLeft: '3rem' }}>This is not a recognised event type</p>
     );
   }
-
-  console.log(getEventType(queryData?.eventType, eventCategory));
 
   const loadingSpinnerShow = css`
     position: absolute;
@@ -133,7 +133,7 @@ function App() {
         </header>
         <div className="navbar">
           <a href="#webinar-guidelines">{btn2}</a>{' '}
-          <a href="#sharings">{btn3}</a>
+          {/* <a href="#sharings">{btn3}</a> */}
         </div>
         <div className="feather-quote">
           <img src={feathers} alt="feathers" className="feathers" />

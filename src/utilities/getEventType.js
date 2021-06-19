@@ -1,53 +1,47 @@
 import EVENTS from '../data/events';
 
-const getEventType = (eventString, eventCategory) => {
+const getEventType = (eventString) => {
+  let eventType;
 
-  let eventType
-
-  if (eventCategory === 'yogaveera') {
-    console.log('triggered yogaveera')
-    for (let i = 0; i < EVENTS.yogaveera.wellbeing.titles.length; i++) {
-      if(eventString.match(EVENTS.yogaveera.wellbeing.titles[i])){
-        eventType = 'wellbeing'
+  if (eventString) {
+    for (let i = 0; i < EVENTS.wellbeing.titles.length; i++) {
+      if (eventString.match(EVENTS.wellbeing.titles[i])) {
+        eventType = 'wellbeing';
       }
     }
-    for (let i = 0; i < EVENTS.yogaveera.meditation.titles.length; i++) {
-      if(eventString.match(EVENTS.yogaveera.meditation.titles[i])){
-        eventType = 'meditation'
+    for (let i = 0; i < EVENTS.meditation.titles.length; i++) {
+      if (eventString.match(EVENTS.meditation.titles[i])) {
+        eventType = 'meditation';
       }
     }
-    for (let i = 0; i < EVENTS.yogaveera.immunity.titles.length; i++) {
-      if(eventString.match(EVENTS.yogaveera.immunity.titles[i])){
-        eventType = 'immunity'
+    for (let i = 0; i < EVENTS.immunity.titles.length; i++) {
+      if (eventString.match(EVENTS.immunity.titles[i])) {
+        eventType = 'immunity';
       }
     }
-  }
-  
-  if (eventCategory === 'foundation') {
-    for (let i = 0; i < EVENTS.foundation.food.titles.length; i++) {
-      if(eventString.match(EVENTS.foundation.food.titles[i])){
-        eventType = 'food'
+    for (let i = 0; i < EVENTS.food.titles.length; i++) {
+      if (eventString.match(EVENTS.food.titles[i])) {
+        eventType = 'food';
       }
     }
-    for (let i = 0; i < EVENTS.foundation.immunityFoundation.titles.length; i++) {
-      if(eventString.match(EVENTS.foundation.immunityFoundation.titles[i])){
-        eventType = 'immunityFoundation'
+    for (let i = 0; i < EVENTS.immunityFoundation.titles.length; i++) {
+      if (eventString.match(EVENTS.immunityFoundation.titles[i])) {
+        eventType = 'immunityFoundation';
       }
     }
-    console.log('estring:',eventString,'earr:', EVENTS.foundation.meditationFoundation.titles)
-    for (let i = 0; i < EVENTS.foundation.meditationFoundation.titles.length; i++) {
-      if(eventString.match(EVENTS.foundation.meditationFoundation.titles[i])){
-        eventType = 'meditationFoundation'
+    for (let i = 0; i < EVENTS.meditationFoundation.titles.length; i++) {
+      if (eventString.match(EVENTS.meditationFoundation.titles[i])) {
+        eventType = 'meditationFoundation';
       }
     }
-    for (let i = 0; i < EVENTS.foundation.ie.titles.length; i++) {
-      if(eventString.match(EVENTS.foundation.ie.titles[i])){
-        eventType = 'ie'
+    for (let i = 0; i < EVENTS.ie.titles.length; i++) {
+      if (eventString.match(EVENTS.ie.titles[i])) {
+        eventType = 'ie';
       }
     }
-    for (let i = 0; i < EVENTS.foundation.success.titles.length; i++) {
-      if(eventString.match(EVENTS.foundation.success.titles[i])){
-        eventType = 'success'
+    for (let i = 0; i < EVENTS.success.titles.length; i++) {
+      if (eventString.match(EVENTS.success.titles[i])) {
+        eventType = 'success';
       }
     }
   }
