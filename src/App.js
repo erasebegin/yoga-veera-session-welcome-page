@@ -39,11 +39,9 @@ function App() {
 
   const chooseQueryData = () => {
     if (window.location.hash.length > 0) {
-      console.log('triggered hash')
       const params = window.location.search + window.location.hash;
       return parseParams(params);
     } else {
-      console.log('triggered else')
       return parseParams(window.location.search);
     }
   };
@@ -63,6 +61,29 @@ function App() {
   const [modalOpen, setModalOpen] = useState(false);
   const [isLate, setIsLate] = useState(false);
   const [isEarly, setIsEarly] = useState(false);
+
+  const getEmail = () => {
+    if (queryData?.lang.toLowerCase() === 'ru') {
+      return (
+        <a href="mailto:sadhanasupport.russian@ishafoundation.org">
+          sadhanasupport.russian@ishafoundation.org
+        </a>
+      );
+    }
+    if (queryData?.region === 'EU') {
+      return (
+        <a href="mailto:webinar.europe@ishafoundation.org">
+          webinar.europe@ishafoundation.org
+        </a>
+      );
+    }
+
+    return (
+      <a href="mailto:online.programs@ishafoundation.org">
+        online.programs@ishafoundation.org
+      </a>
+    );
+  };
 
   if (Object.keys(queryData).length <= 0) {
     return <p style={{ paddingLeft: '3rem' }}>Please provide query params</p>;
@@ -180,15 +201,7 @@ function App() {
           </div>
           <section className="bottom-section">
             <h2>{h4}</h2>
-            {queryData?.region === 'EU' ? (
-              <a href="mailto:webinar.europe@ishafoundation.org">
-                webinar.europe@ishafoundation.org
-              </a>
-            ) : (
-              <a href="mailto:online.programs@ishafoundation.org">
-                online.programs@ishafoundation.org
-              </a>
-            )}
+            {getEmail()}
             {/* <div className="sharings" id="sharings">
               <h2>Sharings</h2>
               <div className="separator">

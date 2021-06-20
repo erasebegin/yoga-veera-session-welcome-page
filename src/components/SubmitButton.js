@@ -32,22 +32,21 @@ export default function SubmitButton({
       );
       const res = await response.json();
       if (res[0].redirect_url) {
-        if (res[0].redirect_url.match('https://')) {
+        if (res[0].redirect_url.match(/^[http]/g)) {
           window.location = res[0].redirect_url;
         } else {
           window.location = 'https://' + res[0].redirect_url;
         }
         console.log(res[0].redirect_url);
-      } else {
-        console.log(res);
-        setNoUrl(true);
-        setModalOpen(true);
-      }
-      if (res.status === 'ERROR') {
+      } else if (res.status === 'ERROR') {
         console.log(res);
         setNoUrl(true);
         setModalOpen(true);
         console.log('no match found for tokenId or regId');
+      } else {
+        console.log(res);
+        setNoUrl(true);
+        setModalOpen(true);
       }
       setLoading(false);
     } catch (err) {
