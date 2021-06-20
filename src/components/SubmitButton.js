@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import getEventTimeZoneOffset from '../utilities/getEventTimeZoneOffset';
 import { toMiliseconds } from '../utilities/convertTime';
+import getJoinUrl from '../utilities/getJoinUrl';
 
 export default function SubmitButton({
   buttonText,
@@ -21,7 +22,7 @@ export default function SubmitButton({
     setLoading(true);
     try {
       const response = await fetch(
-        `https://www.ishayoga.eu/index.php/webinar-join-now/`,
+        getJoinUrl(),
         {
           method: 'POST',
           body: JSON.stringify({

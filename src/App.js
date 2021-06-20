@@ -48,7 +48,6 @@ function App() {
 
   const queryData = chooseQueryData();
 
-  console.log(window.location);
   const text = PAGE_TEXT[queryData?.lang] || PAGE_TEXT.en || {};
   const event =
     EVENT_DATA[getEventType(queryData?.eventType)] || EVENT_DATA.wellbeing;
@@ -70,6 +69,7 @@ function App() {
         </a>
       );
     }
+    
     if (queryData?.region === 'EU') {
       return (
         <a href="mailto:webinar.europe@ishafoundation.org">
