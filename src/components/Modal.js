@@ -10,6 +10,7 @@ export default function Modal({
   isEarly,
   noUrl,
   eventTime,
+  timeZone,
   text
 }) {
   const close = (e) => {
@@ -35,7 +36,7 @@ export default function Modal({
       setModalBody(text?.errClassOver.text || '');
     } else if (isEarly) {
       setTitle(text?.errTooEarly.title || '');
-      setModalBody(text?.errTooEarly.text(date, time) || '');
+      setModalBody(text?.errTooEarly.text(date, time, timeZone) || '');
     }
   });
 

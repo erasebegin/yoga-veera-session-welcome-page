@@ -62,7 +62,7 @@ function App() {
   const [isEarly, setIsEarly] = useState(false);
 
   const getEmail = () => {
-    if (queryData?.lang.toLowerCase() === 'ru') {
+    if (queryData?.lang?.toLowerCase() === 'ru') {
       return (
         <a href="mailto:sadhanasupport.russian@ishafoundation.org">
           sadhanasupport.russian@ishafoundation.org
@@ -70,7 +70,7 @@ function App() {
       );
     }
     
-    if (queryData?.region === 'EU') {
+    if (queryData?.region?.toLowerCase() === 'eu') {
       return (
         <a href="mailto:webinar.europe@ishafoundation.org">
           webinar.europe@ishafoundation.org
@@ -116,6 +116,7 @@ function App() {
         isEarly={isEarly}
         text={text}
         eventTime={queryData?.t}
+        timeZone={queryData?.tz}
       />
       <main>
         <header>
