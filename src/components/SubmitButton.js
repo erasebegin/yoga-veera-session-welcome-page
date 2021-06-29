@@ -21,16 +21,13 @@ export default function SubmitButton({
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await fetch(
-        getJoinUrl(),
-        {
-          method: 'POST',
-          body: JSON.stringify({
-            tokenId: queryData.tokenId,
-            regId: queryData.regId
-          })
-        }
-      );
+      const response = await fetch(getJoinUrl(), {
+        method: 'POST',
+        body: JSON.stringify({
+          tokenId: queryData.tokenId,
+          regId: queryData.regId
+        })
+      });
       const res = await response.json();
       if (res[0].redirect_url) {
         if (res[0].redirect_url.match(/^[http]/g)) {
@@ -60,9 +57,14 @@ export default function SubmitButton({
   const checkTime = (t, duration) => {
     // convert date and time url param to ISO string:
     const eventTimeArr = t.split('-');
-    const eventDate = eventTimeArr.slice(0, 3).join('-');
-    const eventTime = eventTimeArr.slice(3, 5).join(':');
-    const eventTimeConverted = new Date(eventDate + 'T' + eventTime);
+    const eventTimeConverted = new Date();
+    eventTimeConverted.setYear(parseInt(eventTimeArr[0], 10));
+    eventTimeConverted.setMonth(parseInt(eventTimeArr[1], 10) - 1);
+    eventTimeConverted.setDate(parseInt(eventTimeArr[2], 10));
+    eventTimeConverted.setHours(
+      parseInt(eventTimeArr[3], 10),
+      parseInt(eventTimeArr[4], 10)
+    );
     // adjust time to UTC0
     const eventTimeAdjusted =
       eventTimeConverted - toMiliseconds(getEventTimeZoneOffset(timeZone));
@@ -83,6 +85,8 @@ export default function SubmitButton({
       } else {
         setButtonEnabled(true);
       }
+    } else {
+      setModalOpen(true)
     }
   };
 
