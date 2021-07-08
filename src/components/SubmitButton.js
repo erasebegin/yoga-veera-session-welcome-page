@@ -73,6 +73,7 @@ export default function SubmitButton({
     // adjust to UTC0
     const currentTimeAdjusted =
       currentTime.getTime() + toMiliseconds(currentTime.getTimezoneOffset());
+
     if (currentTimeAdjusted < eventTimeAdjusted - toMiliseconds(60)) {
       setButtonEnabled(false);
       setIsEarly(true);
@@ -86,7 +87,8 @@ export default function SubmitButton({
         setButtonEnabled(true);
       }
     } else {
-      setModalOpen(true)
+      console.log('checkTime: no conditions met')
+      return;
     }
   };
 
