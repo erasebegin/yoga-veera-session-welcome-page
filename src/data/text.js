@@ -16,7 +16,11 @@ const pageText = {
       },
       'It is best to avoid any interruptions or distractions like getting up, eating, drinking, or going to the restroom during the session',
       'If you have children or pets that might interrupt or distract you, please ensure that they are taken care of for the duration of the session',
-      'You should be somewhat hungry or on a light stomach, which is the optimal condition (1.5 hours after a meal) to do the yogic practices taught in the webinar',
+      function (duration) {
+        return `You should be somewhat hungry or on a ${
+          duration === '4' ? 'empty' : 'light'
+        } stomach, which is the optimal condition (${duration} hours after a meal) to do the yogic practices taught in the webinar`;
+      },
       'Ensure you have a steady internet connection',
       'It is best to connect through a laptop and keep your phone switched off'
     ],
@@ -50,7 +54,7 @@ const pageText = {
     errTooEarly: {
       title: "This session hasn't started yet",
       text: function (date, time, timeZone) {
-        return `It will begin on ${date} at ${time+' '+timeZone}.`;
+        return `It will begin on ${date} at ${time + ' ' + timeZone}.`;
       }
     },
     errNoUrl: {
@@ -76,7 +80,9 @@ const pageText = {
       },
       'Perfavore evita qualisiasi interruzione o distrazione come alzarti, mangiare, bere o andare al bagno durante la sessione',
       'Se hai dei bambini o animali domestici che potrebbero interromeprti o distrarti, perfavore assicurati che qualcuno se ne occupi per la durata della sessione',
-      'Dovresti praticare con una leggera fame o a stomaco vuoto (1.5 ore dopo un pasto), questa è la condizione ottimale per fare le pratice yogiche insegnate nel webinar',
+      function (duration) {
+        return `Dovresti praticare con una leggera fame o a stomaco vuoto (${duration} ore dopo un pasto), questa è la condizione ottimale per fare le pratice yogiche insegnate nel webinar`;
+      },
       'Assicurati di avere una connessione ad internet stabile',
       "E' ottimale collegarsi da un laptop e tenere il tuo telefono spento"
     ],
@@ -109,8 +115,8 @@ const pageText = {
     },
     errTooEarly: {
       title: 'Questa sessione non è ancora iniziata',
-      text: function (date, time,timeZone) {
-        return `Inizierà il ${date} alle ${time+' '+timeZone}.`;
+      text: function (date, time, timeZone) {
+        return `Inizierà il ${date} alle ${time + ' ' + timeZone}.`;
       }
     },
     errNoUrl: {
@@ -127,7 +133,7 @@ const pageText = {
     h3: 'Чтобы извлечь максимальную пользу от вебинара, пожалуйста, следуйте этим рекомендациям:',
     h4: 'За дополнительной информацией обращайтесь:',
     p2: function (title) {
-      return `Сессия ${title} должно включать названия йогических практик и направленной медитации`;
+      return `Сессия ${title} включает в себя несколько йогических практик и направленную медитацию.`;
     },
     p5: 'Пожалуйста, убедитесь, что вы готовы и присоединились к сессии не позднее, чем за 5 минут до её начала.',
     ul: [
@@ -136,7 +142,9 @@ const pageText = {
       },
       'Пожалуйста, не прерывайте занятие и не отвлекайтесь на то, чтобы вставать, есть, пить или ходить в туалет во время сессии',
       'Если у Вас есть дети или питомцы, пожалуйста, убедитесь, что они не будут отвлекать Вас во время сессии',
-      'Участие в сессии рекомендуется на лёгкий желудок, т.е. когда вы немного голодны (через 1,5 часа после еды) — это оптимальное состояние для прохождения йогических практик вебинара',
+      function (duration) {
+        return `Участие в сессии рекомендуется на лёгкий желудок, т.е. когда вы немного голодны (через ${duration} часа после еды) — это оптимальное состояние для прохождения йогических практик вебинара`;
+      },
       'Убедитесь, что ваше интернет-соединение стабильно',
       'Рекоммендуется проходить сессию, используя компьютер и отключив телефон'
     ],
@@ -169,8 +177,8 @@ const pageText = {
     },
     errTooEarly: {
       title: 'Эта сессия еще не началась',
-      text: function (date, time,timeZone) {
-        return `Сессия начнется ${date} в ${time+' '+timeZone}.`;
+      text: function (date, time, timeZone) {
+        return `Сессия начнется ${date} в ${time + ' ' + timeZone}.`;
       }
     },
     errNoUrl: {
@@ -197,7 +205,9 @@ const pageText = {
       },
       'Por favor evita cualquier interrupción o distracción como levantarte, comer, beber o ir al baño durante la sesión.',
       'Si tienes niños o mascotas que puedan interrumpirte o distraerte, asegúrate de que estén atendidos durante toda la sesión.',
-      'Debes tener algo de hambre o con el estómago ligero, que es la condición óptima (1,5 horas después de una comida) para realizar las prácticas de yoga que se enseñan en el seminario web.',
+      function (duration) {
+        return `Debes tener algo de hambre o con el estómago ligero, que es la condición óptima (${duration} horas después de una comida) para realizar las prácticas de yoga que se enseñan en el seminario web.`;
+      },
       'Asegúrate de tener una conexión estable a Internet.',
       'Es mejor conectarte a través de un ordenador portátil y mantener el teléfono apagado.'
     ],
@@ -230,8 +240,8 @@ const pageText = {
     },
     errTooEarly: {
       title: 'Esta sesión aún no ha comenzado',
-      text: function (date, time,timeZone) {
-        return `Comenzará en ${date} a ${time+' '+timeZone}.`;
+      text: function (date, time, timeZone) {
+        return `Comenzará en ${date} a ${time + ' ' + timeZone}.`;
       }
     },
     errNoUrl: {
@@ -257,7 +267,9 @@ const pageText = {
       },
       'Veuillez éviter toute interruption ou distraction comme se lever, manger, boire ou aller aux toilettes pendant la session.',
       "Si vous avez des enfants ou des animaux qui pourraient vous interrompre ou vous distraire, veuillez vous assurer qu'ils sont pris en charge le temps de la session.",
-      "Vous devriez avoir un peu faim ou avoir l'estomac léger, ce sont les conditions optimales (1h30 après un repas) pour faire les pratiques de yoga enseignées dans le webinaire.",
+      function (duration) {
+        return `Vous devriez avoir un peu faim ou avoir l'estomac léger, ce sont les conditions optimales (${duration} après un repas) pour faire les pratiques de yoga enseignées dans le webinaire.`;
+      },
       "Assurez-vous d'avoir une connexion internet stable.",
       "L'idéal est de vous connecter sur un ordinateur et d'éteindre votre téléphone"
     ],
@@ -290,8 +302,8 @@ const pageText = {
     },
     errTooEarly: {
       title: "Cette session n'a pas encore commencé",
-      text: function (date, time,timeZone) {
-        return `Elle commencera le ${date} à ${time+' '+timeZone}.`;
+      text: function (date, time, timeZone) {
+        return `Elle commencera le ${date} à ${time + ' ' + timeZone}.`;
       }
     },
     errNoUrl: {
@@ -318,7 +330,9 @@ const pageText = {
       },
       'Bitte vermeide Unterbrechungen und Ablenkungen wie aufstehen, essen, trinken oder benutzen der Toilette während der Sitzung. ',
       'Wenn du Kinder oder Haustiere hast, die dich möglicherweise unterbrechen oder ablenken, stelle sicher, dass sie für die Dauer der Sitzung betreut werden.',
-      'Du solltest einen leichten Magenzustand haben, dies ist die optimale Voraussetzung um die Yoga-Übungen zu machen (es muss ein Abstand von mindestens 1,5 Stunden nach deiner letzten Mahlzeit bestehen), die im Webinar vorkommen.',
+      function (duration) {
+        return `Du solltest einen leichten Magenzustand haben, dies ist die optimale Voraussetzung um die Yoga-Übungen zu machen (es muss ein Abstand von mindestens ${duration} Stunden nach deiner letzten Mahlzeit bestehen), die im Webinar vorkommen.`;
+      },
       'Stelle sicher, dass du eine stabile Internetverbindung hast. ',
       'Es ist am besten, die Verbindung über einen Laptop oder einen Desktop herzustellen und dein Telefon auszuschalten.'
     ],
@@ -352,7 +366,7 @@ const pageText = {
     errTooEarly: {
       title: 'Diese Sitzung hat noch nicht begonnen',
       text: function (date, time, timeZone) {
-        return `Sie wird am ${date} um ${time+' '+timeZone} beginnen`;
+        return `Sie wird am ${date} um ${time + ' ' + timeZone} beginnen`;
       }
     },
     errNoUrl: {

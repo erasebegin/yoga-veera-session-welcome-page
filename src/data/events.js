@@ -24,7 +24,8 @@ const events = {
       desktop: image,
       mobile: image2
     },
-    duration: '60'
+    duration: '60',
+    eatBeforeDuration: '4'
   },
   meditationFoundation: {
     titles: [
@@ -113,7 +114,8 @@ const events = {
       desktop: image,
       mobile: image2
     },
-    duration: '45'
+    duration: '45',
+    eatBeforeDuration: '4'
   }
 };
 

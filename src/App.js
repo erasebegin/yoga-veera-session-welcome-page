@@ -69,7 +69,7 @@ function App() {
         </a>
       );
     }
-    
+
     if (queryData?.region?.toLowerCase() === 'eu') {
       return (
         <a href="mailto:webinar.europe@ishafoundation.org">
@@ -104,7 +104,7 @@ function App() {
   const loadingSpinnerHide = css`
     display: none;
   `;
-
+console.log(event)
   return (
     <Container $loading={loading}>
       <ClipLoader css={loading ? loadingSpinnerShow : loadingSpinnerHide} />
@@ -171,12 +171,12 @@ function App() {
         <div className="main-content" id="webinar-guidelines">
           <h2>{h3}</h2>
           <ul className="instructions">
-            {ul?.map((listItem, index) => {
-              if (typeof listItem === 'function') {
-                return <li key={index}>{listItem(event.duration)}</li>;
-              }
-              return <li key={index}>{listItem}</li>;
-            })}
+            <li>{text.ul[0](event.duration || '45')}</li>
+            <li>{text.ul[1]}</li>
+            <li>{text.ul[2]}</li>
+            <li>{text.ul[3](event.eatBeforeDuration || '1.5')}</li>
+            <li>{text.ul[4]}</li>
+            <li>{text.ul[5]}</li>
           </ul>
           <div className="button-container">
             <SubmitButton
