@@ -50,11 +50,12 @@ function App() {
 
   const text = PAGE_TEXT[queryData?.lang] || PAGE_TEXT.en || {};
   const event =
-    EVENT_DATA[getEventType(queryData?.eventType)] || EVENT_DATA.wellbeing;
+    EVENT_DATA[getEventType(queryData?.eventTitle)] || EVENT_DATA.wellbeing;
   const quote =
-    text.quotes[getEventType(queryData?.eventType)] || text.quotes['wellbeing'];
-  const { h1, h3, h4, p2, p5, ul, btn1, btn2, btn3 } = text || {};
+    text.quotes[getEventType(queryData?.eventTitle)] || text.quotes['wellbeing'];
+  const { h1, h3, h4, p2, p5, btn1, btn2 } = text || {};
   const eventTitle = queryData.eventTitle || '';
+
   const [loading, setLoading] = useState(false);
   const [noUrl, setNoUrl] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -101,9 +102,11 @@ function App() {
     left: 50%;
     display: block;
   `;
+
   const loadingSpinnerHide = css`
     display: none;
   `;
+  
 console.log(event)
   return (
     <Container $loading={loading}>

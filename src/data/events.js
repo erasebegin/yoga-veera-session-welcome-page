@@ -116,7 +116,33 @@ const events = {
     },
     duration: '45',
     eatBeforeDuration: '4'
-  }
+  },
+  upa: {
+    titles: [
+      'Upa Yoga'
+    ],
+    description:
+      'foreground: hands holding phone displaying image of person practicing yoga. background: laptop on table displaying same image as phone',
+    images: {
+      desktop: image,
+      mobile: image2
+    },
+    duration: '80',
+    eatBeforeDuration: '1.5'
+  },
+  upaAdvanced: {
+    titles: [
+      'Upa Yoga'
+    ],
+    description:
+      'foreground: hands holding phone displaying image of person practicing yoga. background: laptop on table displaying same image as phone',
+    images: {
+      desktop: image,
+      mobile: image2
+    },
+    duration: '110',
+    eatBeforeDuration: '1.5'
+  },
 };
 
 export default events;

@@ -1,57 +1,47 @@
 import EVENTS from '../data/events';
 
-const getEventType = (eventString) => {
+// determines the type of event (and therefore which data set to use) based on
+// eventTitle provided in url params
+
+const getEventType = (eventTitle) => {
   let eventType;
 
-  if (eventString) {
-    for (let i = 0; i < EVENTS.wellbeing.titles.length; i++) {
-      if (eventString.match(EVENTS.wellbeing.titles[i])) {
-        eventType = 'wellbeing';
+  if (eventTitle) {
+    // first check if the event is related to upa
+    if (eventTitle.includes('upa')) {
+      if (eventTitle.includes('110')) {
+        // if 110 (the event duration) is found in the title,
+        // this means it is the longer variant of the upa program
+        eventType = 'upaAdvanced';
+        return eventType;
+      } else {
+        // if 110 is not found in the title,
+        // default to 'upa' which has a duration of 80 mins
+        eventType = 'upa';
+        return eventType;
       }
     }
-    for (let i = 0; i < EVENTS.meditation.titles.length; i++) {
-      if (eventString.match(EVENTS.meditation.titles[i])) {
-        eventType = 'meditation';
-      }
-    }
-    for (let i = 0; i < EVENTS.immunity.titles.length; i++) {
-      if (eventString.match(EVENTS.immunity.titles[i])) {
-        eventType = 'immunity';
-      }
-    }
-    for (let i = 0; i < EVENTS.food.titles.length; i++) {
-      if (eventString.match(EVENTS.food.titles[i])) {
-        eventType = 'food';
-      }
-    }
-    for (let i = 0; i < EVENTS.immunityFoundation.titles.length; i++) {
-      if (eventString.match(EVENTS.immunityFoundation.titles[i])) {
-        eventType = 'immunityFoundation';
-      }
-    }
-    for (let i = 0; i < EVENTS.meditationFoundation.titles.length; i++) {
-      if (eventString.match(EVENTS.meditationFoundation.titles[i])) {
-        eventType = 'meditationFoundation';
-      }
-    }
-    for (let i = 0; i < EVENTS.ie.titles.length; i++) {
-      if (eventString.match(EVENTS.ie.titles[i])) {
-        eventType = 'ie';
-      }
-    }
-    for (let i = 0; i < EVENTS.success.titles.length; i++) {
-      if (eventString.match(EVENTS.success.titles[i])) {
-        eventType = 'success';
+
+    for (let i = 0; i < Object.keys(EVENTS).length; i++) {
+      let current = Object.keys(EVENTS)[i];
+      for (let j = 0; j < EVENTS[current].titles.length; j++) {
+        if (
+          eventTitle
+            .toLowerCase()
+            .match(EVENTS[current].titles[j].toLowerCase())
+        ) {
+          eventType = current;
+        }
       }
     }
   }
 
-  return eventType ? eventType : null;
+  return eventType ? eventType : 'Getting event type failed';
 };
 
 export default getEventType;
 
-// program_name	program_category
+// titles to use for testing purposes:
 
 // YOGA VEERA
 
