@@ -7,7 +7,6 @@ import EVENT_DATA from './data/events';
 import PAGE_TEXT from './data/text';
 // COMPONENTS
 import SubmitButton from './components/SubmitButton';
-// import Carousel from './components/Carousel';
 import Modal from './components/Modal';
 // UTILITIES
 import getEventType from './utilities/getEventType';
@@ -106,8 +105,7 @@ function App() {
   const loadingSpinnerHide = css`
     display: none;
   `;
-  
-console.log(event)
+
   return (
     <Container $loading={loading}>
       <ClipLoader css={loading ? loadingSpinnerShow : loadingSpinnerHide} />

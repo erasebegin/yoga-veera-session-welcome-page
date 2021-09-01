@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import getEventTimeZoneOffset from '../utilities/getEventTimeZoneOffset';
 import { toMiliseconds } from '../utilities/convertTime';
-import getJoinUrl from '../utilities/getJoinUrl';
+import useJsonData from '../hooks/useJsonData';
 
 export default function SubmitButton({
   buttonText,
@@ -16,12 +16,15 @@ export default function SubmitButton({
   setIsEarly
 }) {
   const [buttonEnabled, setButtonEnabled] = useState(false);
+  // for testing on localhost, remove /events/join
+  const { data } = useJsonData('/events/join/resources/data/config.json');
+  console.log(data.joinSessionUrl);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await fetch(getJoinUrl(), {
+      const response = await fetch(data.joinSessionUrl, {
         method: 'POST',
         body: JSON.stringify({
           tokenId: queryData.tokenId,
@@ -87,7 +90,7 @@ export default function SubmitButton({
         setButtonEnabled(true);
       }
     } else {
-      console.log('checkTime: no conditions met')
+      console.log('checkTime: no conditions met');
       return;
     }
   };
