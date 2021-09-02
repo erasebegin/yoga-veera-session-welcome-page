@@ -1,9 +1,7 @@
-import EVENTS from '../data/events';
+// function determines the type of event (and therefore which data set to use) 
+// based on eventTitle provided in url params
 
-// determines the type of event (and therefore which data set to use) based on
-// eventTitle provided in url params
-
-const getEventType = (eventTitle) => {
+const getEventType = (eventTitle, eventData) => {
   let eventType;
 
   if (eventTitle) {
@@ -22,13 +20,13 @@ const getEventType = (eventTitle) => {
       }
     }
 
-    for (let i = 0; i < Object.keys(EVENTS).length; i++) {
-      let current = Object.keys(EVENTS)[i];
-      for (let j = 0; j < EVENTS[current].titles.length; j++) {
+    for (let i = 0; i < Object.keys(eventData).length; i++) {
+      let current = Object.keys(eventData)[i];
+      for (let j = 0; j < eventData[current].titles.length; j++) {
         if (
           eventTitle
             .toLowerCase()
-            .match(EVENTS[current].titles[j].toLowerCase())
+            .match(eventData[current].titles[j].toLowerCase())
         ) {
           eventType = current;
         }

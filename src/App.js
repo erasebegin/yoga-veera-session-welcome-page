@@ -1,18 +1,21 @@
 import { useState } from 'react';
+import ClipLoader from 'react-spinners/ClipLoader';
+// STYLES
 import './global.css';
 import styled, { css } from 'styled-components';
-import ClipLoader from 'react-spinners/ClipLoader';
 // DATA
-import EVENT_DATA from './data/events';
 import PAGE_TEXT from './data/text';
 // COMPONENTS
 import SubmitButton from './components/SubmitButton';
 import Modal from './components/Modal';
-// UTILITIES
+// UTILITIES/HOOKS
 import getEventType from './utilities/getEventType';
+import useJsonData from './hooks/useJsonData';
 // IMAGES
 import separator from './images/divider-orange.svg';
 import feathers from './images/feathers.svg';
+import defaultImageDesktop from './images/main-banner.png';
+import defaultImageMobile from './images/main-banner-mobile.png';
 
 // test url:
 // http://localhost:3000/?lang=en&eventType=wellbeing&eventId=67543&tokenId=754754&regId=75347&t=2021-05-06-18-30&tz=BST&eventTitle=Yoga%20for%20Wellbeing
@@ -47,11 +50,15 @@ function App() {
 
   const queryData = chooseQueryData();
 
+  const { data: eventData, error } = useJsonData('/events/join/resources/data/events.json');
+
   const text = PAGE_TEXT[queryData?.lang] || PAGE_TEXT.en || {};
   const event =
-    EVENT_DATA[getEventType(queryData?.eventTitle)] || EVENT_DATA.wellbeing;
+    eventData[getEventType(queryData?.eventTitle, eventData)] ||
+    eventData.wellbeing;
   const quote =
-    text.quotes[getEventType(queryData?.eventTitle)] || text.quotes['wellbeing'];
+    text.quotes[getEventType(queryData?.eventTitle, eventData)] ||
+    text.quotes['wellbeing'];
   const { h1, h3, h4, p2, p5, btn1, btn2 } = text || {};
   const eventTitle = queryData.eventTitle || '';
 
@@ -93,6 +100,11 @@ function App() {
     return (
       <p style={{ paddingLeft: '3rem' }}>This is not a recognised event type</p>
     );
+  }
+
+  if (error) {
+    console.error('Could not retrieve data from events.json');
+    return <p style={{ paddingLeft: '3rem' }}>Could not retrieve event data</p>;
   }
 
   const loadingSpinnerShow = css`
@@ -144,19 +156,18 @@ function App() {
             />
           </div>
           <img
-            src={event?.images?.desktop}
+            src={event?.images?.desktop || defaultImageDesktop}
             className="header-image desktop"
-            alt={event?.images?.description}
+            alt={event?.images?.description || ''}
           />
           <img
-            src={event?.images?.mobile}
+            src={event?.images?.mobile || defaultImageMobile}
             className="header-image mobile"
-            alt={event?.images?.description}
+            alt={event?.images?.description || ''}
           />
         </header>
         <div className="navbar">
           <a href="#webinar-guidelines">{btn2}</a>{' '}
-          {/* <a href="#sharings">{btn3}</a> */}
         </div>
         <div className="feather-quote">
           <img src={feathers} alt="feathers" className="feathers" />

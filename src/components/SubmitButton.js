@@ -57,6 +57,8 @@ export default function SubmitButton({
     }
   };
 
+  const timeBeforeSession = parseInt(data.timeBeforeSession);
+
   const checkTime = (t, duration) => {
     // convert date and time url param to ISO string:
     const eventTimeArr = t.split('-');
@@ -77,12 +79,12 @@ export default function SubmitButton({
     const currentTimeAdjusted =
       currentTime.getTime() + toMiliseconds(currentTime.getTimezoneOffset());
 
-    if (currentTimeAdjusted < eventTimeAdjusted - toMiliseconds(60)) {
+    if (currentTimeAdjusted < eventTimeAdjusted - toMiliseconds(timeBeforeSession)) {
       setButtonEnabled(false);
       setIsEarly(true);
     }
 
-    if (currentTimeAdjusted > eventTimeAdjusted - toMiliseconds(60)) {
+    if (currentTimeAdjusted > eventTimeAdjusted - toMiliseconds(timeBeforeSession)) {
       if (currentTimeAdjusted > eventTimeAdjusted + toMiliseconds(duration)) {
         setIsLate(true);
         setButtonEnabled(false);
@@ -90,7 +92,7 @@ export default function SubmitButton({
         setButtonEnabled(true);
       }
     } else {
-      console.log('checkTime: no conditions met');
+      console.error('checkTime: no conditions met');
       return;
     }
   };
