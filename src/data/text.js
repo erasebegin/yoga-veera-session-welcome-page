@@ -48,7 +48,7 @@ const pageText = {
       text: 'We were not able to carry out this action.'
     },
     errClassOver: {
-      title: 'Oops, this class is already over',
+      title: 'This session is already over.',
       text: ''
     },
     errTooEarly: {
@@ -110,7 +110,7 @@ const pageText = {
       text: 'Non siamo stati in grado di eseguire questa azione.'
     },
     errClassOver: {
-      title: 'Ops, la sessione è già finita',
+      title: 'Questa sessione è già finita.',
       text: ''
     },
     errTooEarly: {
@@ -172,7 +172,7 @@ const pageText = {
       text: 'Это действие не может быть выполнено.'
     },
     errClassOver: {
-      title: 'Упс, сессия уже завершилась',
+      title: 'Эта сессия уже закончилась.',
       text: ''
     },
     errTooEarly: {
@@ -235,7 +235,7 @@ const pageText = {
       text: 'No hemos podido realizar esta acción.'
     },
     errClassOver: {
-      title: 'Oops, la sesión ya ha terminado',
+      title: 'Esta sesión ya ha terminado.',
       text: ''
     },
     errTooEarly: {
@@ -297,7 +297,7 @@ const pageText = {
       text: "Nous n'avons pas été en mesure d'exécuter cette action."
     },
     errClassOver: {
-      title: 'Oups, la session est déjà terminée',
+      title: 'Cette session est déjà terminée.',
       text: ''
     },
     errTooEarly: {
@@ -360,7 +360,7 @@ const pageText = {
       text: 'Wir waren nicht in der Lage, diese Aktion auszuführen.'
     },
     errClassOver: {
-      title: 'Hoppla, die Sitzung ist bereits vorbei',
+      title: 'Diese Sitzung ist bereits beendet.',
       text: ''
     },
     errTooEarly: {

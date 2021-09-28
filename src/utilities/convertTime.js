@@ -1,5 +1,9 @@
-export const toMiliseconds = (minutes) => {
+export const toMilliseconds = (minutes) => {
   return minutes * 60 * 1000;
+};
+
+export const toSeconds = (minutes) => {
+  return minutes * 60;
 };
 
 export const formatDate = (date) => {

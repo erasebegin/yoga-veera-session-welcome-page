@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import getEventTimeZoneOffset from '../utilities/getEventTimeZoneOffset';
-import { toMiliseconds } from '../utilities/convertTime';
+import { toMilliseconds } from '../utilities/convertTime';
 import useJsonData from '../hooks/useJsonData';
 
 export default function SubmitButton({
@@ -13,18 +12,19 @@ export default function SubmitButton({
   setNoUrl,
   setModalOpen,
   setIsLate,
-  setIsEarly
+  setIsEarly,
+  dataPath
 }) {
   const [buttonEnabled, setButtonEnabled] = useState(false);
-  // for testing on localhost, remove /events/join
-  const { data } = useJsonData('/events/join/resources/data/config.json');
-  console.log(data.joinSessionUrl);
+  // for testing on localhost remove /events/join from json data path
+  const { data: configData } = useJsonData(`/events/join/resources/data/config.json`);
+  const { data: timezoneData } = useJsonData(`/events/join/resources/data/timezones.json`);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await fetch(data.joinSessionUrl, {
+      const response = await fetch(configData.joinSessionUrl, {
         method: 'POST',
         body: JSON.stringify({
           tokenId: queryData.tokenId,
@@ -38,14 +38,11 @@ export default function SubmitButton({
         } else {
           window.location = 'https://' + res[0].redirect_url;
         }
-        console.log(res[0].redirect_url);
       } else if (res.status === 'ERROR') {
-        console.log(res);
         setNoUrl(true);
         setModalOpen(true);
         console.log('no match found for tokenId or regId');
       } else {
-        console.log(res);
         setNoUrl(true);
         setModalOpen(true);
       }
@@ -57,60 +54,77 @@ export default function SubmitButton({
     }
   };
 
-  const timeBeforeSession = parseInt(data.timeBeforeSession);
+  const parseTzOffset = (tzo) => {
+    let output = tzo;
+
+    if (tzo.startsWith(' ')) {
+      const sliced = tzo.slice(1, tzo.length);
+      output = '+' + sliced;
+    }
+
+    return output;
+  };
+
+  // looks for UTC offset in URL params, either in tzOffset (new system) or tz (old system)
+  const timezoneOffset = parseTzOffset(queryData?.tzOffset) || timezoneData[timeZone];
+  console.log('tzo:', parseTzOffset(queryData.tzOffset));
 
   const checkTime = (t, duration) => {
-    // convert date and time url param to ISO string:
-    const eventTimeArr = t.split('-');
-    const eventTimeConverted = new Date();
-    eventTimeConverted.setYear(parseInt(eventTimeArr[0], 10));
-    eventTimeConverted.setMonth(parseInt(eventTimeArr[1], 10) - 1);
-    eventTimeConverted.setDate(parseInt(eventTimeArr[2], 10));
-    eventTimeConverted.setHours(
-      parseInt(eventTimeArr[3], 10),
-      parseInt(eventTimeArr[4], 10)
+    // fetches the amount of time a user is allowed to enter a session before it begins
+    const timeBeforeSession = parseInt(
+      configData.timeBeforeEnableSessionMinutes
     );
-    // adjust time to UTC0
-    const eventTimeAdjusted =
-      eventTimeConverted - toMiliseconds(getEventTimeZoneOffset(timeZone));
-    // get system time
-    const currentTime = new Date();
-    // adjust to UTC0
-    const currentTimeAdjusted =
-      currentTime.getTime() + toMiliseconds(currentTime.getTimezoneOffset());
 
-    if (currentTimeAdjusted < eventTimeAdjusted - toMiliseconds(timeBeforeSession)) {
-      setButtonEnabled(false);
-      setIsEarly(true);
-    }
-
-    if (currentTimeAdjusted > eventTimeAdjusted - toMiliseconds(timeBeforeSession)) {
-      if (currentTimeAdjusted > eventTimeAdjusted + toMiliseconds(duration)) {
-        setIsLate(true);
-        setButtonEnabled(false);
-      } else {
-        setButtonEnabled(true);
-      }
-    } else {
-      console.error('checkTime: no conditions met');
+    // ensures that this entire function can be overridden by changing the value to 0 in the config file
+    if (timeBeforeSession === 0) {
+      setButtonEnabled(true);
       return;
     }
+    console.log('tz', timezoneOffset);
+    // split event time into array
+    const eventTimeArr = t.split('-');
+    // rejoin array into ISO compatible string, adding and ISO compatible timezone offset
+    const eventTimeString = `${eventTimeArr[0]}-${eventTimeArr[1]}-${eventTimeArr[2]}T${eventTimeArr[3]}:${eventTimeArr[4]}:00${timezoneOffset}`;
+    // use string to create a new date object and convert that object to a number with getTime()
+    const eventTime = new Date(eventTimeString).getTime();
+
+    // get user's system time as number
+    const currentTime = Date.now();
+
+    if (eventTime - toMilliseconds(timeBeforeSession) > currentTime) {
+      // if user is early
+      setIsEarly(true);
+      setButtonEnabled(false);
+    } else if (eventTime + toMilliseconds(duration) < currentTime) {
+      // if user is late
+      setIsLate(true);
+      setButtonEnabled(false);
+    } else {
+      // else, let them enter
+      setButtonEnabled(true);
+    }
+
+    // useful log for debugging
+    console.log({
+      eventTime: { num: eventTime, txt: new Date(eventTime) },
+      currentTime: { num: currentTime, txt: new Date(currentTime) }
+    });
   };
 
   useEffect(() => {
     checkTime(queryData?.t, eventDuration);
-  }, []);
+  }, [configData, timezoneOffset]);
 
-  useEffect(() => {
-    if (Object.keys(queryData).length > 0) {
-      let refreshInterval = setInterval(() => {
-        checkTime(queryData.t, eventDuration);
-      }, 30000);
-      return () => {
-        clearInterval(refreshInterval);
-      };
-    }
-  }, [buttonEnabled]);
+  // useEffect(() => {
+  //   if (Object.keys(queryData).length > 0) {
+  //     let refreshInterval = setInterval(() => {
+  //       checkTime(queryData.t, eventDuration);
+  //     }, 60000);
+  //     return () => {
+  //       clearInterval(refreshInterval);
+  //     };
+  //   }
+  // }, []);
 
   return (
     <FormContainer $buttonEnabled={buttonEnabled}>

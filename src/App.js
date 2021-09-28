@@ -18,7 +18,7 @@ import defaultImageDesktop from './images/main-banner.png';
 import defaultImageMobile from './images/main-banner-mobile.png';
 
 // test url:
-// http://localhost:3000/?lang=en&eventType=wellbeing&eventId=67543&tokenId=754754&regId=75347&t=2021-05-06-18-30&tz=BST&eventTitle=Yoga%20for%20Wellbeing
+// http://localhost:3000/?lang=en&eventType=wellbeing&eventId=67543&tokenId=754754&regId=75347&t=2021-05-06-18-30&tz=BST&eventTitle=Yoga%20for%20Wellbeing&tzOffset=3600
 
 function App() {
   const parseParams = (querystring) => {
@@ -49,8 +49,8 @@ function App() {
   };
 
   const queryData = chooseQueryData();
-
-  const { data: eventData, error } = useJsonData('/events/join/resources/data/events.json');
+  // for testing on localhost remove /events/join from json data path
+  const { data: eventData, error } = useJsonData(`/events/join/resources/data/events.json`);
 
   const text = PAGE_TEXT[queryData?.lang] || PAGE_TEXT.en || {};
   const event =
@@ -370,7 +370,7 @@ const Container = styled.div`
         top: 0;
         left: 100px;
 
-        @media (max-width: 1000px) {
+        @media (max-width: 1200px) {
           display: none;
         }
       }
