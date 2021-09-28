@@ -49,8 +49,20 @@ function App() {
   };
 
   const queryData = chooseQueryData();
+
+  // fetch json data
   // for testing on localhost remove /events/join from json data path
-  const { data: eventData, error } = useJsonData(`/events/join/resources/data/events.json`);
+  const {
+    data: eventData,
+    loading: eventDataLoading,
+    error: jsonError
+  } = useJsonData(`/resources/data/events.json`);
+  const { data: configData } = useJsonData(
+    `/resources/data/config.json`
+  );
+  const { data: timezoneData, loading: timezoneLoading } = useJsonData(
+    `/resources/data/timezones.json`
+  );
 
   const text = PAGE_TEXT[queryData?.lang] || PAGE_TEXT.en || {};
   const event =
@@ -102,7 +114,7 @@ function App() {
     );
   }
 
-  if (error) {
+  if (jsonError) {
     console.error('Could not retrieve data from events.json');
     return <p style={{ paddingLeft: '3rem' }}>Could not retrieve event data</p>;
   }
@@ -117,6 +129,10 @@ function App() {
   const loadingSpinnerHide = css`
     display: none;
   `;
+
+  if (timezoneLoading) {
+    return <ClipLoader css={loadingSpinnerShow} />;
+  }
 
   return (
     <Container $loading={loading}>
@@ -153,6 +169,8 @@ function App() {
               isLate={isLate}
               setIsLate={setIsLate}
               setIsEarly={setIsEarly}
+              timezoneData={timezoneData}
+              configData={configData}
             />
           </div>
           <img
@@ -215,16 +233,6 @@ function App() {
           <section className="bottom-section">
             <h2>{h4}</h2>
             {getEmail()}
-            {/* <div className="sharings" id="sharings">
-              <h2>Sharings</h2>
-              <div className="separator">
-                <img
-                  src={separator}
-                  alt="leaf print with horizonal black lines (separator)"
-                />
-              </div>
-              <Carousel />
-            </div> */}
           </section>
         </div>
       </main>

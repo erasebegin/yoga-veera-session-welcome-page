@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { toMilliseconds } from '../utilities/convertTime';
-import useJsonData from '../hooks/useJsonData';
 
 export default function SubmitButton({
   buttonText,
@@ -13,12 +12,11 @@ export default function SubmitButton({
   setModalOpen,
   setIsLate,
   setIsEarly,
-  dataPath
+  timezoneData,
+  configData
 }) {
   const [buttonEnabled, setButtonEnabled] = useState(false);
   // for testing on localhost remove /events/join from json data path
-  const { data: configData } = useJsonData(`/events/join/resources/data/config.json`);
-  const { data: timezoneData } = useJsonData(`/events/join/resources/data/timezones.json`);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -113,7 +111,7 @@ export default function SubmitButton({
 
   useEffect(() => {
     checkTime(queryData?.t, eventDuration);
-  }, [configData, timezoneOffset]);
+  }, [timezoneData, configData]);
 
   // useEffect(() => {
   //   if (Object.keys(queryData).length > 0) {
