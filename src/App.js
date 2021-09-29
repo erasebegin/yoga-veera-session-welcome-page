@@ -56,12 +56,13 @@ function App() {
     data: eventData,
     loading: eventDataLoading,
     error: jsonError
-  } = useJsonData(`/resources/data/events.json`);
-  const { data: configData } = useJsonData(
-    `/resources/data/config.json`
-  );
+  } = useJsonData(`
+  /events/join/resources/data/events.json`);
+  const { data: configData } = useJsonData(`
+  /events/join/resources/data/config.json`);
   const { data: timezoneData, loading: timezoneLoading } = useJsonData(
-    `/resources/data/timezones.json`
+    `
+    /events/join/resources/data/timezones.json`
   );
 
   const text = PAGE_TEXT[queryData?.lang] || PAGE_TEXT.en || {};
@@ -130,7 +131,7 @@ function App() {
     display: none;
   `;
 
-  if (timezoneLoading) {
+  if (timezoneLoading || eventDataLoading) {
     return <ClipLoader css={loadingSpinnerShow} />;
   }
 

@@ -16,6 +16,7 @@ export default function SubmitButton({
   configData
 }) {
   const [buttonEnabled, setButtonEnabled] = useState(false);
+  const [timezoneOffset, setTimezoneOffset] = useState(0);
   // for testing on localhost remove /events/join from json data path
 
   const handleSubmit = async (e) => {
@@ -59,13 +60,8 @@ export default function SubmitButton({
       const sliced = tzo.slice(1, tzo.length);
       output = '+' + sliced;
     }
-
     return output;
   };
-
-  // looks for UTC offset in URL params, either in tzOffset (new system) or tz (old system)
-  const timezoneOffset = parseTzOffset(queryData?.tzOffset) || timezoneData[timeZone];
-  console.log('tzo:', parseTzOffset(queryData.tzOffset));
 
   const checkTime = (t, duration) => {
     // fetches the amount of time a user is allowed to enter a session before it begins
@@ -78,17 +74,20 @@ export default function SubmitButton({
       setButtonEnabled(true);
       return;
     }
-    console.log('tz', timezoneOffset);
     // split event time into array
     const eventTimeArr = t.split('-');
     // rejoin array into ISO compatible string, adding and ISO compatible timezone offset
     const eventTimeString = `${eventTimeArr[0]}-${eventTimeArr[1]}-${eventTimeArr[2]}T${eventTimeArr[3]}:${eventTimeArr[4]}:00${timezoneOffset}`;
     // use string to create a new date object and convert that object to a number with getTime()
     const eventTime = new Date(eventTimeString).getTime();
-
     // get user's system time as number
     const currentTime = Date.now();
 
+    // useful log for debugging
+    console.log({
+      eventTime: { num: eventTime, txt: new Date(eventTime) },
+      currentTime: { num: currentTime, txt: new Date(currentTime) }
+    });
     if (eventTime - toMilliseconds(timeBeforeSession) > currentTime) {
       // if user is early
       setIsEarly(true);
@@ -102,16 +101,23 @@ export default function SubmitButton({
       setButtonEnabled(true);
     }
 
-    // useful log for debugging
-    console.log({
-      eventTime: { num: eventTime, txt: new Date(eventTime) },
-      currentTime: { num: currentTime, txt: new Date(currentTime) }
-    });
   };
 
   useEffect(() => {
-    checkTime(queryData?.t, eventDuration);
-  }, [timezoneData, configData]);
+    if (queryData.tzOffset) {
+      setTimezoneOffset(parseTzOffset(queryData.tzOffset));
+    }
+
+    if (timezoneData) {
+      setTimezoneOffset(parseTzOffset(timezoneData[timeZone]));
+    }
+  }, [queryData, timezoneData]);
+
+  useEffect(() => {
+    if (configData && timezoneData) {
+      checkTime(queryData?.t, eventDuration);
+    }
+  }, [timezoneData, configData, queryData, timezoneOffset]);
 
   // useEffect(() => {
   //   if (Object.keys(queryData).length > 0) {

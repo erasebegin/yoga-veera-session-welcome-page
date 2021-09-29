@@ -4,7 +4,7 @@ export default function useJsonData(path = '') {
   const [data, setData] = useState({});
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  console.log({data})
+  
   function fetchData() {
     setLoading(true);
     fetch(path)
