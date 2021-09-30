@@ -60,6 +60,7 @@ export default function SubmitButton({
       const sliced = tzo.slice(1, tzo.length);
       output = '+' + sliced;
     }
+
     return output;
   };
 
@@ -88,6 +89,7 @@ export default function SubmitButton({
       eventTime: { num: eventTime, txt: new Date(eventTime) },
       currentTime: { num: currentTime, txt: new Date(currentTime) }
     });
+
     if (eventTime - toMilliseconds(timeBeforeSession) > currentTime) {
       // if user is early
       setIsEarly(true);
@@ -100,15 +102,12 @@ export default function SubmitButton({
       // else, let them enter
       setButtonEnabled(true);
     }
-
   };
 
   useEffect(() => {
     if (queryData.tzOffset) {
       setTimezoneOffset(parseTzOffset(queryData.tzOffset));
-    }
-
-    if (timezoneData) {
+    } else if (timezoneData) {
       setTimezoneOffset(parseTzOffset(timezoneData[timeZone]));
     }
   }, [queryData, timezoneData]);
