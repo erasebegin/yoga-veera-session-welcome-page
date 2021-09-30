@@ -222,6 +222,8 @@ function App() {
               isLate={isLate}
               setIsLate={setIsLate}
               setIsEarly={setIsEarly}
+              timezoneData={timezoneData}
+              configData={configData}
             />
             <p>{p5}</p>
           </div>
