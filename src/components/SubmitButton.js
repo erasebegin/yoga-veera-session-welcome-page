@@ -21,7 +21,7 @@ export default function SubmitButton({
   const [timezoneOffset, setTimezoneOffset] = useState(0);
   const [eventTimeConverted, setEventTimeConverted] = useState(0);
 
-  const { tokenId, regId, t, tzOffset } = queryData || {};
+  const { tokenId, regId, t, tzOffset, lang } = queryData || {};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -152,6 +152,7 @@ export default function SubmitButton({
           timeBeforeEnableSession={configData.timeBeforeEnableSessionMinutes}
           eventTime={eventTimeConverted}
           eventDuration={eventDuration}
+          language={lang}
         />
       )}
     </FormContainer>

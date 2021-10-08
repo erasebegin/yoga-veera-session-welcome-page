@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import ClipLoader from 'react-spinners/ClipLoader';
 import { toMilliseconds } from '../utilities/convertTime';
+import pageText from '../data/text';
 
 export default function Timer({
   eventTime,
   timeBeforeEnableSession,
-  eventDuration
+  eventDuration,
+  language
 }) {
   const currentTime = Date.now();
 
@@ -53,7 +55,7 @@ export default function Timer({
   const daysUntil = Math.floor(hoursUntil / 24);
 
   if (loading) {
-    return <ClipLoader color="white"/>;
+    return <ClipLoader color="white" />;
   }
 
   if (timeDifference + toMilliseconds(eventDuration) < 0) {
@@ -66,23 +68,28 @@ export default function Timer({
 
   return (
     <StyledTimer>
-      <p>Event begins in</p>
+      <p>{pageText[language].timer.beginsIn}</p>
       <p>
-        <Span>{`${addZero(daysUntil)}:${addZero(hoursRemainder)}:${addZero(
+        <span>{`${addZero(daysUntil)}:${addZero(hoursRemainder)}:${addZero(
           minutesRemainder
-        )}:${addZero(secondsRemainder)}`}</Span>
+        )}:${addZero(secondsRemainder)}`}</span>
       </p>
-      <p>
-        You may enter <Span>{timeBeforeEnableSession} minutes</Span> before{' '}
-        <br />
-        the sessions begins.
-      </p>
+      <p
+        dangerouslySetInnerHTML={{
+          __html: pageText[language].timer.enterBefore(timeBeforeEnableSession)
+        }}
+      />
     </StyledTimer>
   );
 }
 
-const StyledTimer = styled.div``;
+const StyledTimer = styled.div`
 
-const Span = styled.span`
-  color: var(--goldBright);
+  p {
+    max-width: 350px;
+  }
+
+  span {
+    color: var(--goldBright);
+  }
 `;

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import ClipLoader from 'react-spinners/ClipLoader';
+import { Link, Element } from 'react-scroll';
 // STYLES
 import './global.css';
 import styled, { css } from 'styled-components';
@@ -50,7 +51,7 @@ function App() {
 
   const queryData = chooseQueryData();
 
-  const {tz, tzOffset, t, region, lang, eventTitle=''} = queryData || {};
+  const { tz, tzOffset, t, region, lang, eventTitle = '' } = queryData || {};
 
   // fetch json data
   // for testing on localhost remove /events/join from json data path
@@ -69,8 +70,7 @@ function App() {
 
   const text = PAGE_TEXT[lang] || PAGE_TEXT.en || {};
   const event =
-    eventData[getEventType(eventTitle, eventData)] ||
-    eventData.wellbeing;
+    eventData[getEventType(eventTitle, eventData)] || eventData.wellbeing;
   const quote =
     text.quotes[getEventType(eventTitle, eventData)] ||
     text.quotes['wellbeing'];
@@ -189,7 +189,7 @@ function App() {
           />
         </header>
         <div className="navbar">
-          <a href="#webinar-guidelines">{btn2}</a>{' '}
+          <Link to="webinar-guidelines" offset={-50} smooth>{btn2}</Link>
         </div>
         <div className="feather-quote">
           <img src={feathers} alt="feathers" className="feathers" />
@@ -202,7 +202,7 @@ function App() {
             alt="leaf print with horizonal black lines (separator)"
           />
         </div>
-        <div className="main-content" id="webinar-guidelines">
+        <Element className="main-content" name="webinar-guidelines">
           <h2>{h3}</h2>
           <ul className="instructions">
             <li>{text.ul[0](event.duration || '45')}</li>
@@ -240,7 +240,7 @@ function App() {
             <h2>{h4}</h2>
             {getEmail()}
           </section>
-        </div>
+        </Element>
       </main>
     </Container>
   );

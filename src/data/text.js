@@ -27,6 +27,12 @@ const pageText = {
     btn1: 'Join Now',
     btn2: 'webinar guidelines',
     btn3: 'sharings',
+    timer: {
+      beginsIn: 'Session begins in',
+      enterBefore: function (time) {
+        return `You may enter <span>${time}</span> minutes before the session begins.`;
+      }
+    },
     quotes: {
       wellbeing:
         'In search of wellbeing, we have done all kinds of insane things on this planet, but wellbeing has not happened. If wellbeing is what you seek, in is the only way out.',
@@ -89,6 +95,12 @@ const pageText = {
     btn1: 'Inizia Adesso',
     btn2: 'linee guida del webinar',
     btn3: 'condivisioni',
+    timer: {
+      beginsIn: 'La sessione inizia tra',
+      enterBefore: function (time) {
+        return `Si può entrare <span>${time}</span> minuti prima dell'inizio delle sessioni.`;
+      }
+    },
     quotes: {
       wellbeing:
         'In search of wellbeing, we have done all kinds of insane things on this planet, but wellbeing has not happened. If wellbeing is what you seek, in is the only way out.',
@@ -151,6 +163,12 @@ const pageText = {
     btn1: 'Присоединиться',
     btn2: 'рекомендации по проведению вебинара',
     btn3: 'отзывы',
+    timer: {
+      beginsIn: 'Сеанс начинается через',
+      enterBefore: function (time) {
+        return `Вы можете войти за <span>${time}</span> минут до до начала сеанса.`;
+      }
+    },
     quotes: {
       wellbeing:
         'Стремясь к благополучию, мы совершили самые безумные действия на этой планете, но благополучие не настало. Если благополучие — это то, к чему вы стремитесь, заглянуть в себя — это единственный выход.',
@@ -214,6 +232,12 @@ const pageText = {
     btn1: 'Únete ahora',
     btn2: 'directrices del seminario web',
     btn3: 'compartir',
+    timer: {
+      beginsIn: 'La sesión comienza en',
+      enterBefore: function (time) {
+        return `Puede entrar <span>${time}</span> minutos antes de que comience la sesión.`;
+      }
+    },
     quotes: {
       wellbeing:
         'En busca de bienestar, hemos hecho todo tipo de cosas descabelladas en este planeta, pero no ha sucedido el bienestar. Si lo que buscas es bienestar, la única salida es ir hacia dentro.',
@@ -276,6 +300,12 @@ const pageText = {
     btn1: 'Participer',
     btn2: 'directives pour le webinaire',
     btn3: 'partages',
+    timer: {
+      beginsIn: 'La session commence dans',
+      enterBefore: function (time) {
+        return `Vous pouvez entrer <span>${time}</span> minutes avant le le début de la session.`;
+      }
+    },
     quotes: {
       wellbeing:
         "En quête de bien-être, nous avons fait toutes sortes de choses folles sur cette planète, mais le bien-être n'est pas arrivé. Si c'est le bien-être que vous recherchez, la seule issue est à l'intérieur.",
@@ -339,6 +369,12 @@ const pageText = {
     btn1: 'Nimm teil',
     btn2: 'Webinar-Leitfaden',
     btn3: 'Mitteilungen',
+    timer: {
+      beginsIn: 'Die Sitzung beginnt um',
+      enterBefore: function (time) {
+        return `Du kannst Dich <span>${time}</span> Minuten vor Beginn der Sitzung anmelden.`;
+      }
+    },
     quotes: {
       wellbeing:
         'Auf der Suche nach Wohlbefinden haben wir alle möglichen verrückten Dinge auf diesem Planeten getan, aber Wohlbefinden ist nicht eingetreten. Wenn Wohlbefinden das ist, was Du suchst, ist der Weg nach innen der einzige Ausweg.',
