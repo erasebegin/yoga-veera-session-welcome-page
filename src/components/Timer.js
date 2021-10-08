@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import ClipLoader from 'react-spinners/ClipLoader';
 import { toMilliseconds } from '../utilities/convertTime';
 
-export default function Timer({ eventTime, timeBeforeEnableSession, eventDuration }) {
+export default function Timer({
+  eventTime,
+  timeBeforeEnableSession,
+  eventDuration
+}) {
   const currentTime = Date.now();
 
   const initialTimeDifference = eventTime - currentTime;
 
   const [timeDifference, setTimeDifference] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setTimeDifference(initialTimeDifference);
@@ -22,6 +28,12 @@ export default function Timer({ eventTime, timeBeforeEnableSession, eventDuratio
       clearInterval(refreshInterval);
     };
   });
+
+  useEffect(() => {
+    if (eventTime && timeDifference) {
+      setLoading(false);
+    }
+  }, [eventTime]);
 
   // add a leading 0 so that numbers always appear in 00 format (e.g. 01, 02, 03)
   function addZero(num) {
@@ -39,13 +51,17 @@ export default function Timer({ eventTime, timeBeforeEnableSession, eventDuratio
   const hoursUntil = Math.floor(minutesUntil / 60);
   const hoursRemainder = hoursUntil % 24;
   const daysUntil = Math.floor(hoursUntil / 24);
-  
-  if (timeDifference + toMilliseconds(eventDuration) < 0) {
-      return <p>This event is already finished</p>
+
+  if (loading) {
+    return <ClipLoader color="white"/>;
   }
 
-  if(timeDifference <= 0) {
-      return <p>This event has already started</p>
+  if (timeDifference + toMilliseconds(eventDuration) < 0) {
+    return <p>This session is already finished</p>;
+  }
+
+  if (timeDifference <= 0) {
+    return <p>This session has already started</p>;
   }
 
   return (

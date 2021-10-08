@@ -38,7 +38,7 @@ export default function Modal({
       setTitle(text?.errTooEarly.title || '');
       setModalBody(text?.errTooEarly.text(date, time, timeZone) || '');
     }
-  });
+  },[isEarly, isLate, noUrl]);
 
   return (
     <Container
@@ -56,7 +56,7 @@ export default function Modal({
           <br /><br />
           {text.errSub || ''}
           <br /><br />
-          <a href="mailto:webianr.europe@ishafoundation.org">
+          <a href="mailto:webinar.europe@ishafoundation.org">
             webinar.europe@ishafoundation.org
           </a>
         </p>

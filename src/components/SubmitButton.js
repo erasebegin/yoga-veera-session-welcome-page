@@ -16,10 +16,10 @@ export default function SubmitButton({
   timezoneData,
   configData
 }) {
+
   const [buttonEnabled, setButtonEnabled] = useState(false);
   const [timezoneOffset, setTimezoneOffset] = useState(0);
   const [eventTimeConverted, setEventTimeConverted] = useState(0);
-  // for testing on localhost remove /events/join from json data path
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,7 +42,7 @@ export default function SubmitButton({
       } else if (res.status === 'ERROR') {
         setNoUrl(true);
         setModalOpen(true);
-        console.log('no match found for tokenId or regId');
+        console.error('no match found for tokenId or regId');
       } else {
         setNoUrl(true);
         setModalOpen(true);
@@ -51,7 +51,7 @@ export default function SubmitButton({
     } catch (err) {
       setNoUrl(true);
       setModalOpen(true);
-      console.log(err);
+      console.error(err);
     }
   };
 
@@ -86,7 +86,7 @@ export default function SubmitButton({
     configData.timeBeforeEnableSessionMinutes
   );
 
-  function checkTime (duration) {
+  function checkTime () {
     const currentTime = convertedUrlTime();
 
     // ensures that this entire function can be overridden by changing the value to 0 in the config file
@@ -101,11 +101,16 @@ export default function SubmitButton({
     //   currentTime: { num: currentTime, txt: new Date(currentTime) }
     // });
 
+    // do not run subsequent code if following variables are not yet available
+    if(!currentTime || !eventTimeConverted || !timeBeforeSession){
+      return
+    }
+
     if (eventTimeConverted - toMilliseconds(timeBeforeSession) > currentTime) {
       // if user is early
       setIsEarly(true);
       setButtonEnabled(false);
-    } else if (eventTimeConverted + toMilliseconds(duration) < currentTime) {
+    } else if (eventTimeConverted + toMilliseconds(eventDuration) < currentTime) {
       // if user is late
       setIsLate(true);
       setButtonEnabled(false);
@@ -124,14 +129,8 @@ export default function SubmitButton({
   }, [queryData, timezoneData]);
 
   useEffect(() => {
-    if (configData && timezoneData) {
-      checkTime(eventDuration);
-    }
-  }, [timezoneData, configData, queryData, timezoneOffset]);
-
-  useEffect(() => {
     let refreshInterval = setInterval(() => {
-      checkTime(eventDuration);
+      checkTime();
     }, 1000);
 
     return () => {
