@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { FaTimes } from 'react-icons/fa';
-import { formatDate, formatTime } from '../utilities/convertTime';
+import { formatDate, formatTime, parseTzOffset } from '../utilities/convertTime';
 
 export default function Modal({
   modalOpen,
@@ -11,16 +11,28 @@ export default function Modal({
   noUrl,
   eventTime,
   timeZone,
+  tzOffset,
   text
 }) {
-  const close = (e) => {
+
+  // old system uses tz param whereas new system uses tzOffset
+
+  function selectedTzParam () {
+    if(timeZone){
+      return timeZone
+    }
+
+    return parseTzOffset(tzOffset)
+  }
+
+  function close (e) {
     if (e.target.classList.contains('outer-container')) {
       setModalOpen(false);
     }
   };
 
   const [title, setTitle] = useState(
-    text.errDefault.title || 'Something went wrong.'
+    text.errDefault.title || "Couldn't load title."
   );
   const [modalBody, setModalBody] = useState(text.errDefault.text || '');
 
@@ -36,12 +48,12 @@ export default function Modal({
       setModalBody(text?.errClassOver.text || '');
     } else if (isEarly) {
       setTitle(text?.errTooEarly.title || '');
-      setModalBody(text?.errTooEarly.text(date, time, timeZone) || '');
+      setModalBody(text?.errTooEarly.text(date, time, selectedTzParam()) || '');
     }
   },[isEarly, isLate, noUrl]);
 
   return (
-    <Container
+    <ModalContainer
       modalOpen={modalOpen}
       className="outer-container"
       onClick={(e) => close(e)}
@@ -61,11 +73,11 @@ export default function Modal({
           </a>
         </p>
       </div>
-    </Container>
+    </ModalContainer>
   );
 }
 
-const Container = styled.div`
+const ModalContainer = styled.div`
   position: fixed;
   width: 100%;
   height: 100%;

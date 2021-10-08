@@ -26,3 +26,14 @@ export const formatTime = (time) => {
   
   return "error: no time provided";
 };
+
+export const parseTzOffset = (tzo) => {
+  let output = tzo;
+
+  if (tzo.startsWith(' ')) {
+    const sliced = tzo.slice(1, tzo.length);
+    output = '+' + sliced;
+  }
+
+  return output;
+};

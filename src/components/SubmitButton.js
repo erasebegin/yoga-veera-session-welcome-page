@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { toMilliseconds } from '../utilities/convertTime';
+import { toMilliseconds, parseTzOffset } from '../utilities/convertTime';
 import Timer from './Timer';
 
 export default function SubmitButton({
@@ -14,12 +14,14 @@ export default function SubmitButton({
   setIsLate,
   setIsEarly,
   timezoneData,
-  configData
+  configData,
+  showTimer
 }) {
-
   const [buttonEnabled, setButtonEnabled] = useState(false);
   const [timezoneOffset, setTimezoneOffset] = useState(0);
   const [eventTimeConverted, setEventTimeConverted] = useState(0);
+
+  const { tokenId, regId, t, tzOffset } = queryData || {};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,8 +30,8 @@ export default function SubmitButton({
       const response = await fetch(configData.joinSessionUrl, {
         method: 'POST',
         body: JSON.stringify({
-          tokenId: queryData.tokenId,
-          regId: queryData.regId
+          tokenId: tokenId,
+          regId: regId
         })
       });
       const res = await response.json();
@@ -55,38 +57,26 @@ export default function SubmitButton({
     }
   };
 
-  const parseTzOffset = (tzo) => {
-    let output = tzo;
-
-    if (tzo.startsWith(' ')) {
-      const sliced = tzo.slice(1, tzo.length);
-      output = '+' + sliced;
-    }
-
-    return output;
-  };
-
-  function convertedUrlTime(){
+  function convertedUrlTime() {
     // split event time into array
-    const eventTimeArr = queryData?.t.split('-');
+    const eventTimeArr = t.split('-');
     // rejoin array into ISO compatible string, adding and ISO compatible timezone offset
     const eventTimeString = `${eventTimeArr[0]}-${eventTimeArr[1]}-${eventTimeArr[2]}T${eventTimeArr[3]}:${eventTimeArr[4]}:00${timezoneOffset}`;
     // use string to create a new date object and convert that object to a number with getTime()
     const eventTime = new Date(eventTimeString).getTime();
     // set eventTime in state so that Timer and checkTime can use it
     setEventTimeConverted(eventTime);
-    // get user's system time as number
-    const t = Date.now();
 
-    return t;
+    // get user's system time as number
+    const systemTime = Date.now();
+
+    return systemTime;
   }
 
   // fetches the amount of time a user is allowed to enter a session before it begins
-  const timeBeforeSession = parseInt(
-    configData.timeBeforeEnableSessionMinutes
-  );
+  const timeBeforeSession = parseInt(configData.timeBeforeEnableSessionMinutes);
 
-  function checkTime () {
+  function checkTime() {
     const currentTime = convertedUrlTime();
 
     // ensures that this entire function can be overridden by changing the value to 0 in the config file
@@ -102,15 +92,18 @@ export default function SubmitButton({
     // });
 
     // do not run subsequent code if following variables are not yet available
-    if(!currentTime || !eventTimeConverted || !timeBeforeSession){
-      return
+    if (!currentTime || !eventTimeConverted || !timeBeforeSession) {
+      return;
     }
 
     if (eventTimeConverted - toMilliseconds(timeBeforeSession) > currentTime) {
       // if user is early
       setIsEarly(true);
       setButtonEnabled(false);
-    } else if (eventTimeConverted + toMilliseconds(eventDuration) < currentTime) {
+    } else if (
+      eventTimeConverted + toMilliseconds(eventDuration) <
+      currentTime
+    ) {
       // if user is late
       setIsLate(true);
       setButtonEnabled(false);
@@ -118,11 +111,11 @@ export default function SubmitButton({
       // else, let them enter
       setButtonEnabled(true);
     }
-  };
+  }
 
   useEffect(() => {
-    if (queryData.tzOffset) {
-      setTimezoneOffset(parseTzOffset(queryData.tzOffset));
+    if (tzOffset) {
+      setTimezoneOffset(parseTzOffset(tzOffset));
     } else if (timezoneData) {
       setTimezoneOffset(parseTzOffset(timezoneData[timeZone]));
     }
@@ -154,11 +147,13 @@ export default function SubmitButton({
           onClick={() => setModalOpen(true)}
         />
       </form>
-      <Timer
-        timeBeforeEnableSession={configData.timeBeforeEnableSessionMinutes}
-        eventTime={eventTimeConverted}
-        eventDuration={eventDuration}
-      />
+      {showTimer && (
+        <Timer
+          timeBeforeEnableSession={configData.timeBeforeEnableSessionMinutes}
+          eventTime={eventTimeConverted}
+          eventDuration={eventDuration}
+        />
+      )}
     </FormContainer>
   );
 }

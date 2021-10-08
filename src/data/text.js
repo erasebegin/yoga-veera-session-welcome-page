@@ -54,7 +54,7 @@ const pageText = {
     errTooEarly: {
       title: "This session hasn't started yet",
       text: function (date, time, timeZone) {
-        return `It will begin on ${date} at ${time + ' ' + timeZone}.`;
+        return `It will begin on ${date} at ${time} (${timeZone}).`;
       }
     },
     errNoUrl: {
@@ -116,7 +116,7 @@ const pageText = {
     errTooEarly: {
       title: 'Questa sessione non è ancora iniziata',
       text: function (date, time, timeZone) {
-        return `Inizierà il ${date} alle ${time + ' ' + timeZone}.`;
+        return `Inizierà il ${date} alle ${time} (${timeZone}).`;
       }
     },
     errNoUrl: {
@@ -178,7 +178,7 @@ const pageText = {
     errTooEarly: {
       title: 'Эта сессия еще не началась',
       text: function (date, time, timeZone) {
-        return `Сессия начнется ${date} в ${time + ' ' + timeZone}.`;
+        return `Сессия начнется ${date} в ${time} (${timeZone}).`;
       }
     },
     errNoUrl: {
@@ -241,7 +241,7 @@ const pageText = {
     errTooEarly: {
       title: 'Esta sesión aún no ha comenzado',
       text: function (date, time, timeZone) {
-        return `Comenzará en ${date} a ${time + ' ' + timeZone}.`;
+        return `Comenzará en ${date} a ${time} (${timeZone}).`;
       }
     },
     errNoUrl: {
@@ -303,7 +303,7 @@ const pageText = {
     errTooEarly: {
       title: "Cette session n'a pas encore commencé",
       text: function (date, time, timeZone) {
-        return `Elle commencera le ${date} à ${time + ' ' + timeZone}.`;
+        return `Elle commencera le ${date} à ${time} (${timeZone}).`;
       }
     },
     errNoUrl: {
@@ -366,7 +366,7 @@ const pageText = {
     errTooEarly: {
       title: 'Diese Sitzung hat noch nicht begonnen',
       text: function (date, time, timeZone) {
-        return `Sie wird am ${date} um ${time + ' ' + timeZone} beginnen`;
+        return `Sie wird am ${date} um ${time} (${timeZone}) beginnen`;
       }
     },
     errNoUrl: {

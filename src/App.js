@@ -50,6 +50,8 @@ function App() {
 
   const queryData = chooseQueryData();
 
+  const {tz, tzOffset, t, region, lang, eventTitle=''} = queryData || {};
+
   // fetch json data
   // for testing on localhost remove /events/join from json data path
   const {
@@ -65,15 +67,14 @@ function App() {
     /resources/data/timezones.json`
   );
 
-  const text = PAGE_TEXT[queryData?.lang] || PAGE_TEXT.en || {};
+  const text = PAGE_TEXT[lang] || PAGE_TEXT.en || {};
   const event =
-    eventData[getEventType(queryData?.eventTitle, eventData)] ||
+    eventData[getEventType(eventTitle, eventData)] ||
     eventData.wellbeing;
   const quote =
-    text.quotes[getEventType(queryData?.eventTitle, eventData)] ||
+    text.quotes[getEventType(eventTitle, eventData)] ||
     text.quotes['wellbeing'];
   const { h1, h3, h4, p2, p5, btn1, btn2 } = text || {};
-  const eventTitle = queryData.eventTitle || '';
 
   const [loading, setLoading] = useState(false);
   const [noUrl, setNoUrl] = useState(false);
@@ -82,7 +83,7 @@ function App() {
   const [isEarly, setIsEarly] = useState(false);
 
   const getEmail = () => {
-    if (queryData?.lang?.toLowerCase() === 'ru') {
+    if (lang?.toLowerCase() === 'ru') {
       return (
         <a href="mailto:sadhanasupport.russian@ishafoundation.org">
           sadhanasupport.russian@ishafoundation.org
@@ -90,7 +91,7 @@ function App() {
       );
     }
 
-    if (queryData?.region?.toLowerCase() === 'eu') {
+    if (region?.toLowerCase() === 'eu') {
       return (
         <a href="mailto:webinar.europe@ishafoundation.org">
           webinar.europe@ishafoundation.org
@@ -145,8 +146,9 @@ function App() {
         isLate={isLate}
         isEarly={isEarly}
         text={text}
-        eventTime={queryData?.t}
-        timeZone={queryData?.tz}
+        eventTime={t}
+        timeZone={tz}
+        tzOffset={tzOffset}
       />
       <main>
         <header>
@@ -164,7 +166,7 @@ function App() {
               loading={loading}
               setLoading={setLoading}
               eventDuration={parseInt(event.duration)}
-              timeZone={queryData.tz}
+              timeZone={tz}
               setNoUrl={setNoUrl}
               setModalOpen={setModalOpen}
               isLate={isLate}
@@ -172,6 +174,7 @@ function App() {
               setIsEarly={setIsEarly}
               timezoneData={timezoneData}
               configData={configData}
+              showTimer
             />
           </div>
           <img
@@ -216,7 +219,7 @@ function App() {
               loading={loading}
               setLoading={setLoading}
               eventDuration={parseInt(event.duration)}
-              timeZone={queryData.tz}
+              timeZone={tz}
               setNoUrl={setNoUrl}
               setModalOpen={setModalOpen}
               isLate={isLate}
