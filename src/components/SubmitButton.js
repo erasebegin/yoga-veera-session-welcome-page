@@ -66,39 +66,46 @@ export default function SubmitButton({
     return output;
   };
 
-  const checkTime = (t, duration) => {
-    // fetches the amount of time a user is allowed to enter a session before it begins
-    const timeBeforeSession = parseInt(
-      configData.timeBeforeEnableSessionMinutes
-    );
+  function convertedUrlTime(){
+    // split event time into array
+    const eventTimeArr = queryData?.t.split('-');
+    // rejoin array into ISO compatible string, adding and ISO compatible timezone offset
+    const eventTimeString = `${eventTimeArr[0]}-${eventTimeArr[1]}-${eventTimeArr[2]}T${eventTimeArr[3]}:${eventTimeArr[4]}:00${timezoneOffset}`;
+    // use string to create a new date object and convert that object to a number with getTime()
+    const eventTime = new Date(eventTimeString).getTime();
+    // set eventTime in state so that Timer and checkTime can use it
+    setEventTimeConverted(eventTime);
+    // get user's system time as number
+    const t = Date.now();
+
+    return t;
+  }
+
+  // fetches the amount of time a user is allowed to enter a session before it begins
+  const timeBeforeSession = parseInt(
+    configData.timeBeforeEnableSessionMinutes
+  );
+
+  function checkTime (duration) {
+    const currentTime = convertedUrlTime();
 
     // ensures that this entire function can be overridden by changing the value to 0 in the config file
     if (timeBeforeSession === 0) {
       setButtonEnabled(true);
       return;
     }
-    // split event time into array
-    const eventTimeArr = t.split('-');
-    // rejoin array into ISO compatible string, adding and ISO compatible timezone offset
-    const eventTimeString = `${eventTimeArr[0]}-${eventTimeArr[1]}-${eventTimeArr[2]}T${eventTimeArr[3]}:${eventTimeArr[4]}:00${timezoneOffset}`;
-    // use string to create a new date object and convert that object to a number with getTime()
-    const eventTime = new Date(eventTimeString).getTime();
-    // set eventTime in state so that Timer can use it
-    setEventTimeConverted(eventTime);
-    // get user's system time as number
-    const currentTime = Date.now();
 
     // useful log for debugging
-    console.log({
-      eventTime: { num: eventTime, txt: new Date(eventTime) },
-      currentTime: { num: currentTime, txt: new Date(currentTime) }
-    });
+    // console.log({
+    //   eventTime: { num: eventTimeConverted, txt: new Date(eventTimeConverted) },
+    //   currentTime: { num: currentTime, txt: new Date(currentTime) }
+    // });
 
-    if (eventTime - toMilliseconds(timeBeforeSession) > currentTime) {
+    if (eventTimeConverted - toMilliseconds(timeBeforeSession) > currentTime) {
       // if user is early
       setIsEarly(true);
       setButtonEnabled(false);
-    } else if (eventTime + toMilliseconds(duration) < currentTime) {
+    } else if (eventTimeConverted + toMilliseconds(duration) < currentTime) {
       // if user is late
       setIsLate(true);
       setButtonEnabled(false);
@@ -118,9 +125,19 @@ export default function SubmitButton({
 
   useEffect(() => {
     if (configData && timezoneData) {
-      checkTime(queryData?.t, eventDuration);
+      checkTime(eventDuration);
     }
   }, [timezoneData, configData, queryData, timezoneOffset]);
+
+  useEffect(() => {
+    let refreshInterval = setInterval(() => {
+      checkTime(eventDuration);
+    }, 1000);
+
+    return () => {
+      clearInterval(refreshInterval);
+    };
+  });
 
   return (
     <FormContainer $buttonEnabled={buttonEnabled}>
@@ -141,6 +158,7 @@ export default function SubmitButton({
       <Timer
         timeBeforeEnableSession={configData.timeBeforeEnableSessionMinutes}
         eventTime={eventTimeConverted}
+        eventDuration={eventDuration}
       />
     </FormContainer>
   );

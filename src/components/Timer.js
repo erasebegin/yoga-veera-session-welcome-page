@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { toMilliseconds } from '../utilities/convertTime';
 
-export default function Timer({ eventTime, timeBeforeEnableSession }) {
+export default function Timer({ eventTime, timeBeforeEnableSession, eventDuration }) {
   const currentTime = Date.now();
 
   const initialTimeDifference = eventTime - currentTime;
@@ -14,32 +15,46 @@ export default function Timer({ eventTime, timeBeforeEnableSession }) {
 
   useEffect(() => {
     let refreshInterval = setInterval(() => {
-      setTimeDifference(timeDifference - 60000);
-    }, 60000);
+      setTimeDifference(timeDifference - 1000);
+    }, 1000);
 
     return () => {
       clearInterval(refreshInterval);
     };
   });
 
-  const daysUntil = Math.round(timeDifference / 1000 / 60 / 60 / 24);
-  const hoursUntil = Math.round(timeDifference / 1000 / 60 / 60);
-  const hoursRemainder = hoursUntil % 24;
-  const minutesUntil = Math.round(timeDifference / 1000 / 60);
+  // add a leading 0 so that numbers always appear in 00 format (e.g. 01, 02, 03)
+  function addZero(num) {
+    if (num < 10) {
+      return `0${num.toString()}`;
+    }
+
+    return num;
+  }
+
+  const secondsUntil = Math.floor(timeDifference / 1000);
+  const secondsRemainder = secondsUntil % 60;
+  const minutesUntil = Math.floor(secondsUntil / 60);
   const minutesRemainder = minutesUntil % 60;
-  const secondsUntil = Math.round(timeDifference / 1000);
-  const secondsRemainder = secondsUntil % 1000;
+  const hoursUntil = Math.floor(minutesUntil / 60);
+  const hoursRemainder = hoursUntil % 24;
+  const daysUntil = Math.floor(hoursUntil / 24);
+  
+  if (timeDifference + toMilliseconds(eventDuration) < 0) {
+      return <p>This event is already finished</p>
+  }
+
+  if(timeDifference <= 0) {
+      return <p>This event has already started</p>
+  }
 
   return (
     <StyledTimer>
       <p>Event begins in</p>
       <p>
-        <Span>{`${daysUntil} day${
-          daysUntil > 1 ? 's' : ''
-        }, ${hoursRemainder} hour${hoursRemainder > 1 ? 's' : ''}
-          and ${minutesRemainder} minute${
-          minutesRemainder > 1 ? 's' : ''
-        }.`}</Span>
+        <Span>{`${addZero(daysUntil)}:${addZero(hoursRemainder)}:${addZero(
+          minutesRemainder
+        )}:${addZero(secondsRemainder)}`}</Span>
       </p>
       <p>
         You may enter <Span>{timeBeforeEnableSession} minutes</Span> before{' '}
