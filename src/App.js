@@ -57,12 +57,12 @@ function App() {
     loading: eventDataLoading,
     error: jsonError
   } = useJsonData(`
-  /events/join/resources/data/events.json`);
+  /resources/data/events.json`);
   const { data: configData } = useJsonData(`
-  /events/join/resources/data/config.json`);
+  /resources/data/config.json`);
   const { data: timezoneData, loading: timezoneLoading } = useJsonData(
     `
-    /events/join/resources/data/timezones.json`
+    /resources/data/timezones.json`
   );
 
   const text = PAGE_TEXT[queryData?.lang] || PAGE_TEXT.en || {};

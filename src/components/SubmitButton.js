@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { toMilliseconds } from '../utilities/convertTime';
+import Timer from './Timer';
 
 export default function SubmitButton({
   buttonText,
@@ -17,6 +18,7 @@ export default function SubmitButton({
 }) {
   const [buttonEnabled, setButtonEnabled] = useState(false);
   const [timezoneOffset, setTimezoneOffset] = useState(0);
+  const [eventTimeConverted, setEventTimeConverted] = useState(0);
   // for testing on localhost remove /events/join from json data path
 
   const handleSubmit = async (e) => {
@@ -81,6 +83,8 @@ export default function SubmitButton({
     const eventTimeString = `${eventTimeArr[0]}-${eventTimeArr[1]}-${eventTimeArr[2]}T${eventTimeArr[3]}:${eventTimeArr[4]}:00${timezoneOffset}`;
     // use string to create a new date object and convert that object to a number with getTime()
     const eventTime = new Date(eventTimeString).getTime();
+    // set eventTime in state so that Timer can use it
+    setEventTimeConverted(eventTime);
     // get user's system time as number
     const currentTime = Date.now();
 
@@ -118,17 +122,6 @@ export default function SubmitButton({
     }
   }, [timezoneData, configData, queryData, timezoneOffset]);
 
-  // useEffect(() => {
-  //   if (Object.keys(queryData).length > 0) {
-  //     let refreshInterval = setInterval(() => {
-  //       checkTime(queryData.t, eventDuration);
-  //     }, 60000);
-  //     return () => {
-  //       clearInterval(refreshInterval);
-  //     };
-  //   }
-  // }, []);
-
   return (
     <FormContainer $buttonEnabled={buttonEnabled}>
       <form onSubmit={handleSubmit}>
@@ -145,6 +138,10 @@ export default function SubmitButton({
           onClick={() => setModalOpen(true)}
         />
       </form>
+      <Timer
+        timeBeforeEnableSession={configData.timeBeforeEnableSessionMinutes}
+        eventTime={eventTimeConverted}
+      />
     </FormContainer>
   );
 }

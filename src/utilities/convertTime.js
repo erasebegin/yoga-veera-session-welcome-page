@@ -14,7 +14,7 @@ export const formatDate = (date) => {
     return join;
   }
 
-  return;
+  return "error: no date provided";
 };
 
 export const formatTime = (time) => {
@@ -24,5 +24,5 @@ export const formatTime = (time) => {
     return replace;
   }
   
-  return;
+  return "error: no time provided";
 };
