@@ -60,12 +60,12 @@ function App() {
     loading: eventDataLoading,
     error: jsonError
   } = useJsonData(`
-  /resources/data/events.json`);
+  /events/join/resources/data/events.json`);
   const { data: configData } = useJsonData(`
-  /resources/data/config.json`);
+  /events/join/resources/data/config.json`);
   const { data: timezoneData, loading: timezoneLoading } = useJsonData(
     `
-    /resources/data/timezones.json`
+    /events/join/resources/data/timezones.json`
   );
 
   const text = PAGE_TEXT[lang] || PAGE_TEXT.en || {};
@@ -189,7 +189,9 @@ function App() {
           />
         </header>
         <div className="navbar">
-          <Link to="webinar-guidelines" offset={-50} smooth>{btn2}</Link>
+          <Link to="webinar-guidelines" offset={-50} smooth>
+            {btn2}
+          </Link>
         </div>
         <div className="feather-quote">
           <img src={feathers} alt="feathers" className="feathers" />

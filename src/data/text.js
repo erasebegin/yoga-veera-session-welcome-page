@@ -96,9 +96,9 @@ const pageText = {
     btn2: 'linee guida del webinar',
     btn3: 'condivisioni',
     timer: {
-      beginsIn: 'La sessione inizia tra',
+      beginsIn: 'La sessione inizierà tra',
       enterBefore: function (time) {
-        return `Si può entrare <span>${time}</span> minuti prima dell'inizio delle sessioni.`;
+        return `Puoi accedere alla sessione <span>${time}</span> minuti prima dell'inizio.`;
       }
     },
     quotes: {
@@ -235,7 +235,7 @@ const pageText = {
     timer: {
       beginsIn: 'La sesión comienza en',
       enterBefore: function (time) {
-        return `Puede entrar <span>${time}</span> minutos antes de que comience la sesión.`;
+        return `Puedes entrar <span>${time}</span> minutos antes de que comience la sesión.`;
       }
     },
     quotes: {
@@ -370,7 +370,7 @@ const pageText = {
     btn2: 'Webinar-Leitfaden',
     btn3: 'Mitteilungen',
     timer: {
-      beginsIn: 'Die Sitzung beginnt um',
+      beginsIn: 'Die Sitzung beginnt in',
       enterBefore: function (time) {
         return `Du kannst Dich <span>${time}</span> Minuten vor Beginn der Sitzung anmelden.`;
       }
