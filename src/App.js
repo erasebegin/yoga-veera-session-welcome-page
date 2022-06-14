@@ -1,22 +1,22 @@
-import { useState } from 'react';
-import ClipLoader from 'react-spinners/ClipLoader';
-import { Link, Element } from 'react-scroll';
+import { useState } from "react";
+import ClipLoader from "react-spinners/ClipLoader";
+import { Link, Element } from "react-scroll";
 // STYLES
-import './global.css';
-import styled, { css } from 'styled-components';
+import "./global.css";
+import styled, { css } from "styled-components";
 // DATA
-import PAGE_TEXT from './data/text';
+import PAGE_TEXT from "./data/text2";
 // COMPONENTS
-import SubmitButton from './components/SubmitButton';
-import Modal from './components/Modal';
+import SubmitButton from "./components/SubmitButton";
+import Modal from "./components/Modal";
 // UTILITIES/HOOKS
-import getEventType from './utilities/getEventType';
-import useJsonData from './hooks/useJsonData';
+import getEventType from "./utilities/getEventType";
+import useJsonData from "./hooks/useJsonData";
 // IMAGES
-import separator from './images/divider-orange.svg';
-import feathers from './images/feathers.svg';
-import defaultImageDesktop from './images/main-banner.png';
-import defaultImageMobile from './images/main-banner-mobile.png';
+import separator from "./images/divider-orange.svg";
+import feathers from "./images/feathers.svg";
+import defaultImageDesktop from "./images/main-banner.png";
+import defaultImageMobile from "./images/main-banner-mobile.png";
 
 // test url:
 // http://localhost:3000/?lang=en&eventType=wellbeing&eventId=67543&tokenId=754754&regId=75347&t=2021-05-06-18-30&tz=BST&eventTitle=Yoga%20for%20Wellbeing&tzOffset=3600
@@ -51,14 +51,14 @@ function App() {
 
   const queryData = chooseQueryData();
 
-  const { tz, tzOffset, t, region, lang, eventTitle = '' } = queryData || {};
+  const { tz, tzOffset, t, region, lang, eventTitle = "" } = queryData || {};
 
   // fetch json data
   // for testing on localhost remove /events/join from json data path
   const {
     data: eventData,
     loading: eventDataLoading,
-    error: jsonError
+    error: jsonError,
   } = useJsonData(`
   /events/join/resources/data/events.json`);
   const { data: configData } = useJsonData(`
@@ -73,8 +73,8 @@ function App() {
     eventData[getEventType(eventTitle, eventData)] || eventData.wellbeing;
   const quote =
     text.quotes[getEventType(eventTitle, eventData)] ||
-    text.quotes['wellbeing'];
-  const { h1, h3, h4, p2, p5, btn1, btn2 } = text || {};
+    text.quotes["wellbeing"];
+  const { h1, h3, h4, p5, btn1, btn2 } = text || {};
 
   const [loading, setLoading] = useState(false);
   const [noUrl, setNoUrl] = useState(false);
@@ -83,7 +83,7 @@ function App() {
   const [isEarly, setIsEarly] = useState(false);
 
   const getEmail = () => {
-    if (lang?.toLowerCase() === 'ru') {
+    if (lang?.toLowerCase() === "ru") {
       return (
         <a href="mailto:sadhanasupport.russian@ishafoundation.org">
           sadhanasupport.russian@ishafoundation.org
@@ -91,7 +91,7 @@ function App() {
       );
     }
 
-    if (region?.toLowerCase() === 'eu') {
+    if (region?.toLowerCase() === "eu") {
       return (
         <a href="mailto:webinar.europe@ishafoundation.org">
           webinar.europe@ishafoundation.org
@@ -107,18 +107,18 @@ function App() {
   };
 
   if (Object.keys(queryData).length <= 0) {
-    return <p style={{ paddingLeft: '3rem' }}>Please provide query params</p>;
+    return <p style={{ paddingLeft: "3rem" }}>Please provide query params</p>;
   }
 
   if (!event) {
     return (
-      <p style={{ paddingLeft: '3rem' }}>This is not a recognised event type</p>
+      <p style={{ paddingLeft: "3rem" }}>This is not a recognised event type</p>
     );
   }
 
   if (jsonError) {
-    console.error('Could not retrieve data from events.json');
-    return <p style={{ paddingLeft: '3rem' }}>Could not retrieve event data</p>;
+    console.error("Could not retrieve data from events.json");
+    return <p style={{ paddingLeft: "3rem" }}>Could not retrieve event data</p>;
   }
 
   const loadingSpinnerShow = css`
@@ -180,12 +180,12 @@ function App() {
           <img
             src={event?.images?.desktop || defaultImageDesktop}
             className="header-image desktop"
-            alt={event?.images?.description || ''}
+            alt={event?.images?.description || ""}
           />
           <img
             src={event?.images?.mobile || defaultImageMobile}
             className="header-image mobile"
-            alt={event?.images?.description || ''}
+            alt={event?.images?.description || ""}
           />
         </header>
         <div className="navbar">
@@ -196,7 +196,6 @@ function App() {
         <div className="feather-quote">
           <img src={feathers} alt="feathers" className="feathers" />
           <blockquote>“{quote}” - Sadhguru</blockquote>
-          <p className="subheading">{p2(eventTitle)}</p>
         </div>
         <div className="separator">
           <img
@@ -207,10 +206,10 @@ function App() {
         <Element className="main-content" name="webinar-guidelines">
           <h2>{h3}</h2>
           <ul className="instructions">
-            <li>{text.ul[0](event.duration || '45')}</li>
+            <li>{text.ul[0](event.duration || "45")}</li>
             <li>{text.ul[1]}</li>
             <li>{text.ul[2]}</li>
-            <li>{text.ul[3](event.eatBeforeDuration || '1.5')}</li>
+            <li>{text.ul[3](event.eatBeforeDuration || "1.5")}</li>
             <li>{text.ul[4]}</li>
             <li>{text.ul[5]}</li>
           </ul>
@@ -282,7 +281,7 @@ const Container = styled.div`
       }
 
       h1 {
-        font-family: 'Fira Sans', sans-serif;
+        font-family: "Fira Sans", sans-serif;
         font-weight: 600;
         letter-spacing: 0.05rem;
         font-size: 2.5rem;
@@ -296,7 +295,7 @@ const Container = styled.div`
       }
 
       h2 {
-        font-family: 'Fedra Sans', serif;
+        font-family: "Fedra Sans", serif;
         font-weight: 300;
         font-size: 2rem;
 
@@ -444,7 +443,7 @@ const Container = styled.div`
     }
 
     h1 {
-      font-family: 'Merriweather', serif;
+      font-family: "Merriweather", serif;
       margin-bottom: 3rem;
       margin-left: 0.5rem;
     }
@@ -503,7 +502,7 @@ const Container = styled.div`
         margin: 6rem 0;
 
         h2 {
-          font-family: 'Merriweather', serif;
+          font-family: "Merriweather", serif;
           margin-bottom: 0;
         }
 

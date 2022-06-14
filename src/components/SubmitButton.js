@@ -60,7 +60,7 @@ export default function SubmitButton({
   function convertedUrlTime() {
     // split event time into array
     const eventTimeArr = t.split('-');
-    // rejoin array into ISO compatible string, adding and ISO compatible timezone offset
+    // rejoin array into ISO compatible string, adding an ISO compatible timezone offset
     const eventTimeString = `${eventTimeArr[0]}-${eventTimeArr[1]}-${eventTimeArr[2]}T${eventTimeArr[3]}:${eventTimeArr[4]}:00${timezoneOffset}`;
     // use string to create a new date object and convert that object to a number with getTime()
     const eventTime = new Date(eventTimeString).getTime();
