@@ -240,6 +240,7 @@ const Container = styled.div`
 
   header {
     position: relative;
+
     .banner-content {
       position: absolute;
       top: 50%;
@@ -248,11 +249,8 @@ const Container = styled.div`
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 1rem;
-      padding-left: 2rem;
       color: white;
       text-align: center;
-      max-width: 600px;
 
       @media (max-width: 700px) {
         padding: 0;
@@ -270,10 +268,17 @@ const Container = styled.div`
         margin: 0;
         margin-bottom: 1.5rem;
         line-height: 3.1rem;
+        max-width: 500px;
+
+        @media (max-width: 500px) {
+          font-size: 1.5rem;
+          line-height: 2.5rem;
+        }
 
         @media (max-width: 800px) {
           font-size: 2rem;
         }
+
       }
 
       h2 {
