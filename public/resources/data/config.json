@@ -1,4 +1,5 @@
 {
     "joinSessionUrl":"https://staging.ishayoga.eu/index.php/webinar-join-now/",
-    "timeBeforeEnableSessionMinutes":"60"
+    "timeBeforeEnableSessionMinutes":"60",
+    "supportUrl": "https://support.ishayoga.eu/support/home"
 }

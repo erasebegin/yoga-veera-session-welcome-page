@@ -24,6 +24,7 @@ const pageText = {
     btn1: "Join Now",
     btn2: "webinar guidelines",
     btn3: "sharings",
+    btn4: "Visit our support page",
     timer: {
       beginsIn: "Session begins in",
       enterBefore: function (time) {
@@ -77,6 +78,7 @@ const pageText = {
     btn1: "Inizia Adesso",
     btn2: "linee guida del webinar",
     btn3: "condivisioni",
+    btn4: "Visita la nostra pagina di supporto",
     timer: {
       beginsIn: "La sessione inizierà tra",
       enterBefore: function (time) {
@@ -142,6 +144,7 @@ const pageText = {
     btn1: "Присоединиться",
     btn2: "рекомендации по проведению вебинара",
     btn3: "отзывы",
+    btn4: "Посетите нашу страницу поддержки",
     timer: {
       beginsIn: "Сеанс начинается через",
       enterBefore: function (time) {
@@ -208,6 +211,7 @@ const pageText = {
     btn1: "Únete ahora",
     btn2: "directrices del seminario web",
     btn3: "compartir",
+    btn4: "Visite nuestra página de asistencia",
     timer: {
       beginsIn: "La sesión comienza en",
       enterBefore: function (time) {
@@ -273,6 +277,7 @@ const pageText = {
     btn1: "Participer",
     btn2: "directives pour le webinaire",
     btn3: "partages",
+    btn4: "Visitez notre page d'assistance",
     timer: {
       beginsIn: "La session commence dans",
       enterBefore: function (time) {
@@ -339,6 +344,7 @@ const pageText = {
     btn1: "Nimm teil",
     btn2: "Webinar-Leitfaden",
     btn3: "Mitteilungen",
+    btn4: "Besuchen Sie unsere Supportseite",
     timer: {
       beginsIn: "Die Sitzung beginnt in",
       enterBefore: function (time) {

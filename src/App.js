@@ -60,12 +60,12 @@ function App() {
     loading: eventDataLoading,
     error: jsonError,
   } = useJsonData(`
-  /events/join/resources/data/events.json`);
+  resources/data/events.json`);
   const { data: configData } = useJsonData(`
-  /events/join/resources/data/config.json`);
+  resources/data/config.json`);
   const { data: timezoneData, loading: timezoneLoading } = useJsonData(
     `
-    /events/join/resources/data/timezones.json`
+    resources/data/timezones.json`
   );
 
   const text = PAGE_TEXT[lang] || PAGE_TEXT.en || {};
@@ -74,37 +74,13 @@ function App() {
   const quote =
     text.quotes[getEventType(eventTitle, eventData)] ||
     text.quotes["wellbeing"];
-  const { h1, h3, h4, p5, btn1, btn2 } = text || {};
+  const { h1, h3, h4, p5, btn1, btn2, btn4 } = text || {};
 
   const [loading, setLoading] = useState(false);
   const [noUrl, setNoUrl] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [isLate, setIsLate] = useState(false);
   const [isEarly, setIsEarly] = useState(false);
-
-  const getEmail = () => {
-    if (lang?.toLowerCase() === "ru") {
-      return (
-        <a href="mailto:sadhanasupport.russian@ishafoundation.org">
-          sadhanasupport.russian@ishafoundation.org
-        </a>
-      );
-    }
-
-    if (region?.toLowerCase() === "eu") {
-      return (
-        <a href="mailto:webinar.europe@ishafoundation.org">
-          webinar.europe@ishafoundation.org
-        </a>
-      );
-    }
-
-    return (
-      <a href="mailto:online.programs@ishafoundation.org">
-        online.programs@ishafoundation.org
-      </a>
-    );
-  };
 
   if (Object.keys(queryData).length <= 0) {
     return <p style={{ paddingLeft: "3rem" }}>Please provide query params</p>;
@@ -239,7 +215,13 @@ function App() {
           </div>
           <section className="bottom-section">
             <h2>{h4}</h2>
-            {getEmail()}
+            <a
+              href={configData.supportUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <button className="button-support">{btn4}</button>
+            </a>
           </section>
         </Element>
       </main>
@@ -461,6 +443,26 @@ const Container = styled.div`
         @media (max-width: 700px) {
           font-size: 1.1rem;
         }
+      }
+    }
+
+    .button-support {
+      background: var(--orange);
+      color: white;
+      border: none;
+      padding: 0.5rem 2rem;
+      margin-bottom: 1rem;
+      border-radius: 5px;
+      font-weight: 600;
+      font-size: 1.3rem;
+      cursor: pointer;
+
+      &:focus {
+        outline-color: var(--goldLight);
+      }
+
+      &:active {
+        outline-color: var(--goldLight);
       }
     }
 
