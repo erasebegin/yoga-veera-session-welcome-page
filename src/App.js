@@ -51,7 +51,7 @@ function App() {
 
   const queryData = chooseQueryData();
 
-  const { tz, tzOffset, t, region, lang, eventTitle = "" } = queryData || {};
+  const { tz, tzOffset, t, lang, eventTitle = "" } = queryData || {};
 
   // fetch json data
   // for testing on localhost remove /events/join from json data path
@@ -60,12 +60,12 @@ function App() {
     loading: eventDataLoading,
     error: jsonError,
   } = useJsonData(`
-  resources/data/events.json`);
+  /events/join/resources/data/events.json`);
   const { data: configData } = useJsonData(`
-  resources/data/config.json`);
+  /events/join/resources/data/config.json`);
   const { data: timezoneData, loading: timezoneLoading } = useJsonData(
     `
-    resources/data/timezones.json`
+    /events/join/resources/data/timezones.json`
   );
 
   const text = PAGE_TEXT[lang] || PAGE_TEXT.en || {};
