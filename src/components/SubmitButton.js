@@ -23,6 +23,8 @@ export default function SubmitButton({
 
   const { tokenId, regId, t, tzOffset, lang } = queryData || {};
 
+  console.log({queryData})
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);

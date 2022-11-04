@@ -12,60 +12,34 @@ import Modal from "./components/Modal";
 // UTILITIES/HOOKS
 import getEventType from "./utilities/getEventType";
 import useJsonData from "./hooks/useJsonData";
+import queryParamData from "./utilities/getQueryParamData";
 // IMAGES
 import separator from "./images/divider-orange.svg";
 import feathers from "./images/feathers.svg";
 import defaultImageDesktop from "./images/main-banner.png";
 import defaultImageMobile from "./images/main-banner-mobile.png";
 
-// test url:
-// http://localhost:3000/?lang=en&eventType=wellbeing&eventId=67543&tokenId=754754&regId=75347&t=2021-05-06-18-30&tz=BST&eventTitle=Yoga%20for%20Wellbeing&tzOffset=3600
+// test params:
+// http://localhost:3000/?region=EU&lang=en&eventType=Live%20Webinar:%20Shakti%20Chalana%20Kriya%20Review&eventTitle=Live%20Webinar:%20Shakti%20Chalana%20Kriya%20Review&eventId=2990&tokenId=d6b4ef7b45b6bfbc6a51fcd9f1b53f22&regId=568&t=2022-11-03-10-00&tz=GMT&tzOffset=+00:00
 
 function App() {
-  const parseParams = (querystring) => {
-    // parse query string
-    const params = new URLSearchParams(querystring);
+  const queryData = queryParamData();
 
-    const obj = {};
-
-    // iterate over all keys
-    for (const key of params.keys()) {
-      if (params.getAll(key).length > 1) {
-        obj[key] = params.getAll(key);
-      } else {
-        obj[key] = params.get(key);
-      }
-    }
-
-    return obj;
-  };
-
-  const chooseQueryData = () => {
-    if (window.location.hash.length > 0) {
-      const params = window.location.search + window.location.hash;
-      return parseParams(params);
-    } else {
-      return parseParams(window.location.search);
-    }
-  };
-
-  const queryData = chooseQueryData();
-
-  const { tz, tzOffset, t, lang, eventTitle = "" } = queryData || {};
+  const { tz, tzOffset, t, lang, eventTitle = "" } = queryData;
 
   // fetch json data
-  // for testing on localhost remove /events/join from json data path
+  // for testing on localhost add REACT_APP_DEVELOPMENT="true" to .env in project root
+  const urlPrefix = process.env.REACT_APP_DEVELOPMENT ? "" : "/events/join";
   const {
     data: eventData,
     loading: eventDataLoading,
     error: jsonError,
   } = useJsonData(`
-  /events/join/resources/data/events.json`);
+  ${urlPrefix}/resources/data/events.json`);
   const { data: configData } = useJsonData(`
-  /events/join/resources/data/config.json`);
+  ${urlPrefix}/resources/data/config.json`);
   const { data: timezoneData, loading: timezoneLoading } = useJsonData(
-    `
-    /events/join/resources/data/timezones.json`
+    `${urlPrefix}/resources/data/timezones.json`
   );
 
   const text = PAGE_TEXT[lang] || PAGE_TEXT.en || {};
@@ -278,7 +252,6 @@ const Container = styled.div`
         @media (max-width: 800px) {
           font-size: 2rem;
         }
-
       }
 
       h2 {

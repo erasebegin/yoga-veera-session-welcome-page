@@ -28,6 +28,7 @@ export const formatTime = (time) => {
 };
 
 export const parseTzOffset = (tzo) => {
+  console.log({tzo})
   let output = tzo;
 
   if (tzo.startsWith(' ')) {
