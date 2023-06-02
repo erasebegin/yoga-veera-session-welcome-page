@@ -68,7 +68,11 @@ export default function Timer({
 
   return (
     <StyledTimer>
-      <p>{pageText[language].timer.beginsIn}</p>
+      <p>
+        {pageText[language]
+          ? pageText[language].timer.beginsIn
+          : pageText.en.timer.beginsIn}
+      </p>
       <p>
         <span>{`${addZero(daysUntil)}:${addZero(hoursRemainder)}:${addZero(
           minutesRemainder
@@ -76,7 +80,9 @@ export default function Timer({
       </p>
       <p
         dangerouslySetInnerHTML={{
-          __html: pageText[language].timer.enterBefore(timeBeforeEnableSession)
+          __html: pageText[language]
+            ? pageText[language].timer.enterBefore(timeBeforeEnableSession)
+            : pageText.en.timer.enterBefore(timeBeforeEnableSession)
         }}
       />
     </StyledTimer>
@@ -84,7 +90,6 @@ export default function Timer({
 }
 
 const StyledTimer = styled.div`
-
   p {
     max-width: 350px;
   }
